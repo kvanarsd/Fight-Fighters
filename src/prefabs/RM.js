@@ -21,7 +21,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         //state machine
         this.state = new StateMachine('idle', {
             idle: new RMIdleState(),
-            runR: new RMRunState(),
+            run: new RMRunState(),
             jump: new RMJumpState(),
             dubJump: new RMDubJumpState(),
             duck: new RMDuckState(),
@@ -35,7 +35,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
 
 class RMIdleState extends State { 
     enter(scene, player) {
-        player.anims.play(`p-idle`)
+        player.anims.play(`idle-${player.direction}`)
         player.doubleJump = 0;
         scene.hurt = false
         player.attack = 30;
@@ -44,12 +44,12 @@ class RMIdleState extends State {
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
-        const WKey = scene.keys.Wkey;
-        const AKey = scene.keys.Akey;
-        const SKey = scene.keys.Skey;
-        const DKey = scene.keys.Dkey;
-        const CKey = scene.keys.Ckey;
-        const VKey = scene.keys.Vkey;
+        const WKey = scene.keys.WKey;
+        const AKey = scene.keys.AKey;
+        const SKey = scene.keys.SKey;
+        const DKey = scene.keys.DKey;
+        const CKey = scene.keys.CKey;
+        const VKey = scene.keys.VKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -98,12 +98,12 @@ class RMRunState extends State {
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
-        const WKey = scene.keys.Wkey;
-        const AKey = scene.keys.Akey;
-        const SKey = scene.keys.Skey;
-        const DKey = scene.keys.Dkey;
-        const CKey = scene.keys.Ckey;
-        const VKey = scene.keys.Vkey;
+        const WKey = scene.keys.WKey;
+        const AKey = scene.keys.AKey;
+        const SKey = scene.keys.SKey;
+        const DKey = scene.keys.DKey;
+        const CKey = scene.keys.CKey;
+        const VKey = scene.keys.VKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -164,8 +164,8 @@ class RMJumpState extends State {
     }
     execute(scene, player) {
         const {WKey} = scene.keys
-        const CKey = scene.keys.Ckey;
-        const VKey = scene.keys.Vkey;
+        const CKey = scene.keys.CKey;
+        const VKey = scene.keys.VKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -200,7 +200,7 @@ class RMDubJumpState extends State {
         player.setVelocityY(player.velocity)
     }
     execute(scene, player) {
-        const CKey = scene.keys.Ckey;
+        const CKey = scene.keys.CKey;
         const VKey = scene.keys.Vkey;
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {

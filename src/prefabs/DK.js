@@ -21,7 +21,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         //state machine
         this.state = new StateMachine('idle', {
             idle: new IdleState(),
-            runR: new RunState(),
+            run: new RunState(),
             jump: new JumpState(),
             dubJump: new DubJumpState(),
             duck: new DuckState(),
@@ -45,8 +45,8 @@ class IdleState extends State {
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
         const { right, up, down, left} = scene.keys
-        const OKey = scene.keys.Okey;
-        const PKey = scene.keys.Pkey;
+        const OKey = scene.keys.OKey;
+        const PKey = scene.keys.PKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -96,8 +96,8 @@ class RunState extends State {
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
         const { right, up, down, left} = scene.keys
-        const OKey = scene.keys.Okey;
-        const PKey = scene.keys.Pkey;
+        const OKey = scene.keys.OKey;
+        const PKey = scene.keys.PKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -158,8 +158,8 @@ class JumpState extends State {
     }
     execute(scene, player) {
         const {up} = scene.keys
-        const OKey = scene.keys.Okey;
-        const PKey = scene.keys.Pkey;
+        const OKey = scene.keys.OKey;
+        const PKey = scene.keys.PKey;
 
         if(scene.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -194,8 +194,8 @@ class DubJumpState extends State {
         player.setVelocityY(player.velocity)
     }
     execute(scene, player) {
-        const OKey = scene.keys.Okey;
-        const PKey = scene.keys.Pkey;
+        const OKey = scene.keys.OKey;
+        const PKey = scene.keys.PKey;
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
             this.stateMachine.transition('norm')
