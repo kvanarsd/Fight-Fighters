@@ -32,31 +32,79 @@ class Play extends Phaser.Scene {
         this.dialogConvo = 0			// current "conversation"
         this.dialogLine = 0			    // current line of conversation
         this.dialogSpeaker = null		// current speaker
-        this.dialogLastSpeaker = null	// last speaker
-        this.dialogTyping = false		// flag to lock player input while text is "typing"
+        this.dialogWord = 0             // current word
         this.dialogText = null			// the actual dialog text
-        this.nextText = null			// player prompt text to continue typing
-        
-        this.dialogConvos = this.dialog.length
-        this.dialogLines = null
-        this.dialogWords = null
+        this.dialogTalking = false;
+        this.dialogConvos = this.dialog.length -1
+        this.dialogLines = null         // amount of lines in convo
+        this.dialogWords = null         // amount of words to iterate through
 
         // initialize dialog text objects (with no text)
         this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
         this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
 
+        // random timer for starting convos
+        this.convoTimer = this.time.addEvent({
+            delay: 200,
+            callback: this.convoStarter(),
+            callbackScope: this,
+            loop: true
+        });
     }
 
     update() {
         this.Rumble.state.step();
         this.Dr.state.step();
+
+        // check still talking 
+        if(this.dialogTalking) {
+            // if at end of current line
+            if(this.dialogWord >= this.dialogWords.length) {
+                // if convo still has lines
+                if(this.dialogLine < this.dialogLines) {
+                    this.dialogLine++;
+                    this.dialogWord = 0;
+                    this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
+
+                    if(this.dialog[this.dialogConvo][this.dialogLine]['newSpeaker']) {
+                        this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
+                    }
+                } else { // no more lines - end convo
+                    this.dialogTalking = false;
+                    this.convoTimer.paused = false;
+                }
+            }
+        }
+
+        // iterate by attack
+        if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
+            this.Rumble.spoken = true;
+            // do something with this - this.dialogWords[this.dialogWord]
+            this.dialogWord++;
+        }
+
+        // end convo if speaker is hurt
+        if(this.dialogSpeaker == "RM" && this.Rumble.hurt) {
+            this.dialogTalking = false;
+            this.convoTimer.paused = false;
+        }
     }
 
+    convoStarter() {
+        this.convoTimer.delay = Phaser.Math.Between(200, 1000);
+        this.convoTimer.paused = true;
 
-    // type text function from Nathan Altice
-    fightText() {
+        this.dialogConvo = Phaser.Math.Between(0, this.dialogConvos);
+        this.dialogTalking = true;
         this.dialogLines = this.dialog[this.dialogConvo].length
+        this.dialogLine = 0;
+        this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
+        this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
+    }
+
+    convo() {
+        
 
         // lock input while typing
         this.dialogTyping = true

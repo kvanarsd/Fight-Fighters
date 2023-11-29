@@ -17,6 +17,8 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         this.second = false;
         this.attack = 30;
         this.attacking = false;
+        this.hurt = false;
+        this.spoken = false             // one word per attack
 
         //state machine
         this.state = new StateMachine('idle', {
@@ -37,10 +39,11 @@ class RMIdleState extends State {
     enter(scene, player) {
         player.anims.play(`idle-${player.direction}`)
         player.doubleJump = 0;
-        scene.hurt = false
+        player.hurt = false
         player.attack = 30;
         player.attacking = false;
         player.setVelocity(0);
+        player.spoken = false;
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
@@ -51,7 +54,7 @@ class RMIdleState extends State {
         const CKey = scene.keys.CKey;
         const VKey = scene.keys.VKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -94,7 +97,7 @@ class RMRunState extends State {
     enter(scene, player) {
         player.anims.play(`run-${player.direction}`)
         player.doubleJump = 0;
-        scene.hurt = false
+        player.hurt = false
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
@@ -105,7 +108,7 @@ class RMRunState extends State {
         const CKey = scene.keys.CKey;
         const VKey = scene.keys.VKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -167,7 +170,7 @@ class RMJumpState extends State {
         const CKey = scene.keys.CKey;
         const VKey = scene.keys.VKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -213,7 +216,7 @@ class RMDubJumpState extends State {
             return
         }
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         } 
@@ -231,7 +234,7 @@ class RMDuckState extends State {
         player.anims.play(`duck-${player.direction}`)
         
     }execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             player.body.setSize(50,138).setOffset(74,0)
             this.stateMachine.transition('hurt')
             return
@@ -277,7 +280,7 @@ class RMNormAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -296,7 +299,7 @@ class RMSecAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -314,7 +317,7 @@ class RMPowAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }

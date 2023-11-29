@@ -17,6 +17,8 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.second = false;
         this.attack = 30;
         this.attacking = false;
+        this.hurt = false;
+        this.spoken = false             // one word per attack
 
         //state machine
         this.state = new StateMachine('idle', {
@@ -37,10 +39,11 @@ class IdleState extends State {
     enter(scene, player) {
         player.anims.play(`p-idle`)
         player.doubleJump = 0;
-        scene.hurt = false
+        player.hurt = false
         player.attack = 30;
         player.attacking = false;
         player.setVelocity(0);
+        player.spoken = false;
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
@@ -48,7 +51,7 @@ class IdleState extends State {
         const OKey = scene.keys.OKey;
         const PKey = scene.keys.PKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -91,7 +94,7 @@ class RunState extends State {
     enter(scene, player) {
         player.anims.play(`run-${player.direction}`)
         player.doubleJump = 0;
-        scene.hurt = false
+        player.hurt = false
     } 
     execute(scene, player) {
         // use destructuring to make a local copy of the keyboard object
@@ -99,7 +102,7 @@ class RunState extends State {
         const OKey = scene.keys.OKey;
         const PKey = scene.keys.PKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -161,7 +164,7 @@ class JumpState extends State {
         const OKey = scene.keys.OKey;
         const PKey = scene.keys.PKey;
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -207,7 +210,7 @@ class DubJumpState extends State {
             return
         }
 
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         } 
@@ -225,7 +228,7 @@ class DuckState extends State {
         player.anims.play(`duck-${player.direction}`)
         
     }execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             player.body.setSize(50,138).setOffset(74,0)
             this.stateMachine.transition('hurt')
             return
@@ -271,7 +274,7 @@ class NormAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -290,7 +293,7 @@ class SecAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
@@ -308,7 +311,7 @@ class PowAttackState extends State {
         })
     }
     execute(scene, player) {
-        if(scene.hurt && !player.immune) {
+        if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
