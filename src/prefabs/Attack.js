@@ -25,4 +25,13 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(200 * this.direction);
         this.text.body.setVelocityX(200 * this.direction);
     }
+
+    update() {
+        console.log(this.x)
+        if(this.x > scene.width + borderPadding || this.x < -borderPadding) {
+            console.log("destroyed")
+            this.destroy();
+            this.text.destroy();
+        }
+    }
 }

@@ -5,8 +5,8 @@ class Play extends Phaser.Scene {
 
     create() {
         // game settings
-        const height = game.config.height;
-        const width = game.config.width;
+        this.height = game.config.height;
+        this.width = game.config.width;
 
         // Dr Karate keys
         this.keys = this.input.keyboard.createCursorKeys()
@@ -22,8 +22,8 @@ class Play extends Phaser.Scene {
         this.keys.VKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V)
 
         // players
-        this.Rumble = new RM(this, width/4, height - borderPadding, "", 0);
-        this.Dr = new DK(this, 3*width/4, height - borderPadding, "", 0);
+        this.Rumble = new RM(this, this.width/4, this.height - borderPadding, "", 0);
+        this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding, "", 0);
 
         // parse dialog from JSON file
         this.dialog = this.cache.json.get('dialog')
@@ -54,7 +54,15 @@ class Play extends Phaser.Scene {
         //this.add.bitmapText(centerX, centerY, 'midnew', this.word).setOrigin(0.5)
 
 
-        // attacks
+        // attacks out of bounds
+        this.rightBound = this.add.rectangle(this.width/2, this.height/2, 100, 100);
+        this.rightBound.alpha = 0;
+        this.RmiddleBound = new Phaser.Geom.Rectangle(0, 0, this.width/2 - borderPadding, this.height);
+        this.DmiddleBound = new Phaser.Geom.Rectangle(this.width/2 + borderPadding, 0, this.width/2 - borderPadding, this.height);
+ 
+        this.Rumble.body.setBoundsRectangle(this.RmiddleBound)
+        this.Dr.body.setBoundsRectangle(this.DmiddleBound)
+
     }
 
     update() {
@@ -106,7 +114,7 @@ class Play extends Phaser.Scene {
         this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
         this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
-        this.at = new Attack(this, game.config.width/2, game.config.height - borderPadding, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+        this.at = new Attack(this, game.config.width/2, game.config.height/2, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
         console.log(this.dialogWords)
         console.log(this.dialogWords[this.dialogWord])
 

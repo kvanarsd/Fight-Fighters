@@ -73,7 +73,7 @@ class Menu extends Phaser.Scene {
                 game.settings = {
                     health: 1000,
                     points: 200,
-                    speed: 100,
+                    speed: 300,
                     gravity: 700,
                     jump: 400
                 }
