@@ -4,6 +4,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
+        this.setImmovable(true)
 
         // hero variables
         this.direction = 'left';

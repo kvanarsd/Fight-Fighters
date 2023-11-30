@@ -40,16 +40,21 @@ class Play extends Phaser.Scene {
         this.dialogWords = null         // amount of words to iterate through
 
         // initialize dialog text objects (with no text)
-        this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
-        this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
+        //this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
+        //this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
 
         // random timer for starting convos
         this.convoTimer = this.time.addEvent({
             delay: 200,
-            callback: this.convoStarter(),
+            callback: this.convoStarter,
             callbackScope: this,
             loop: true
         });
+
+        //this.add.bitmapText(centerX, centerY, 'midnew', this.word).setOrigin(0.5)
+
+
+        // attacks
     }
 
     update() {
@@ -101,6 +106,10 @@ class Play extends Phaser.Scene {
         this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
         this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
+        this.at = new Attack(this, game.config.width/2, game.config.height - borderPadding, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+        console.log(this.dialogWords)
+        console.log(this.dialogWords[this.dialogWord])
+
     }
 
     convo() {
@@ -112,10 +121,5 @@ class Play extends Phaser.Scene {
         // clear text
         this.dialogText.text = ''
         this.nextText.text = ''
-        
-
-        if () {
-            
-        }
     }
 }

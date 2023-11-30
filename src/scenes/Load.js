@@ -10,7 +10,8 @@ class Load extends Phaser.Scene {
         // load JSON (ie dialog text)
         this.load.json('dialog', 'json/dialog.json')
 
-        // load images
+        // load fonts
+        this.load.bitmapFont('midnew', 'fonts/midnewbmp.png', 'fonts/midnewbmp.xml')
 
     }
 
