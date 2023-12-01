@@ -39,7 +39,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
 
 class RMIdleState extends State { 
     enter(scene, player) {
-        player.anims.play(`idle-${player.direction}`)
+        player.anims.play(`RM-idle-${player.direction}`)
         player.doubleJump = 0;
         player.hurt = false
         player.attack = 30;
@@ -97,7 +97,7 @@ class RMIdleState extends State {
 
 class RMRunState extends State { 
     enter(scene, player) {
-        player.anims.play(`run-${player.direction}`)
+        //player.anims.play(`RM-run-${player.direction}`)
         player.doubleJump = 0;
         player.hurt = false
     } 
@@ -151,14 +151,14 @@ class RMRunState extends State {
             d = 1;
         }
         
-        player.anims.play(`run-${player.direction}`);
+        player.anims.play(`RM-run-${player.direction}`, true);
         player.setVelocityX(player.speed * d);
     }
 }
 
 class RMJumpState extends State {
     enter(scene, player) {
-        player.anims.play(`jump-${player.direction}`)
+        player.anims.play(`RM-jump-${player.direction}`)
         scene.notJump = false
 
         player.setVelocityY(player.velY)
@@ -233,7 +233,7 @@ class RMDubJumpState extends State {
 class RMDuckState extends State {
     enter(scene, player) {
         player.body.setSize(124,30).setOffset(0,108)
-        player.anims.play(`duck-${player.direction}`)
+        player.anims.play(`RM-duck-${player.direction}`)
         
     }execute(scene, player) {
         if(player.hurt && !player.immune) {
@@ -255,7 +255,7 @@ class RMHurtState extends State {
     enter(scene, player) {
         player.attacking = false;
         player.immune = true;
-        player.anims.play(`hurt-${player.direction}`)
+        player.anims.play(`RM-hurt-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -270,7 +270,7 @@ class RMHurtState extends State {
 class RMNormAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
-        player.anims.play(`nAttack-${player.direction}`)
+        player.anims.play(`RM-nAttack-${player.direction}`)
 
         player.second = true;
         scene.time.delayedCall(100, () => {
@@ -294,7 +294,7 @@ class RMSecAttackState extends State {
         player.attacking = true;
         player.attack += 20;
         player.second = false;
-        player.anims.play(`sAttack-${player.direction}`)
+        player.anims.play(`RM-sAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -312,7 +312,7 @@ class RMPowAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
         player.attack *= 3;
-        player.anims.play(`pAttack-${player.direction}`)
+        player.anims.play(`RM-pAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')

@@ -91,8 +91,16 @@ class Play extends Phaser.Scene {
 
         // iterate by attack
         if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
+            console.log("speak")
             this.Rumble.spoken = true;
-            // do something with this - this.dialogWords[this.dialogWord]
+            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+            this.dialogWord++;
+        }
+
+        if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
+            console.log("speak")
+            this.Dr.spoken = true;
+            const talk = new Attack(this, this.Dr.x, this.Dr.y, '', 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
             this.dialogWord++;
         }
 
@@ -114,7 +122,6 @@ class Play extends Phaser.Scene {
         this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
         this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
-        this.at = new Attack(this, game.config.width/2, game.config.height/2, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
         console.log(this.dialogWords)
         console.log(this.dialogWords[this.dialogWord])
 

@@ -39,7 +39,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
 
 class IdleState extends State { 
     enter(scene, player) {
-        player.anims.play(`p-idle`)
+        player.anims.play(`DK-idle-${player.direction}`)
         player.doubleJump = 0;
         player.hurt = false
         player.attack = 30;
@@ -94,7 +94,7 @@ class IdleState extends State {
 
 class RunState extends State { 
     enter(scene, player) {
-        player.anims.play(`run-${player.direction}`)
+        //player.anims.play(`DK-run-${player.direction}`)
         player.doubleJump = 0;
         player.hurt = false
     } 
@@ -145,14 +145,14 @@ class RunState extends State {
             d = 1;
         }
         
-        player.anims.play(`run-${player.direction}`);
+        player.anims.play(`DK-run-${player.direction}`, true);
         player.setVelocityX(player.speed * d);
     }
 }
 
 class JumpState extends State {
     enter(scene, player) {
-        player.anims.play(`jump-${player.direction}`)
+        player.anims.play(`DK-jump-${player.direction}`)
         scene.notJump = false
 
         player.setVelocityY(player.velY)
@@ -227,7 +227,7 @@ class DubJumpState extends State {
 class DuckState extends State {
     enter(scene, player) {
         player.body.setSize(124,30).setOffset(0,108)
-        player.anims.play(`duck-${player.direction}`)
+        player.anims.play(`DK-duck-${player.direction}`)
         
     }execute(scene, player) {
         if(player.hurt && !player.immune) {
@@ -249,7 +249,7 @@ class HurtState extends State {
     enter(scene, player) {
         player.attacking = false;
         player.immune = true;
-        player.anims.play(`hurt-${player.direction}`)
+        player.anims.play(`DK-hurt-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -264,7 +264,7 @@ class HurtState extends State {
 class NormAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
-        player.anims.play(`nAttack-${player.direction}`)
+        player.anims.play(`DK-nAttack-${player.direction}`)
 
         player.second = true;
         scene.time.delayedCall(100, () => {
@@ -288,7 +288,7 @@ class SecAttackState extends State {
         player.attacking = true;
         player.attack += 20;
         player.second = false;
-        player.anims.play(`sAttack-${player.direction}`)
+        player.anims.play(`DK-sAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -306,7 +306,7 @@ class PowAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
         player.attack *= 3;
-        player.anims.play(`pAttack-${player.direction}`)
+        player.anims.play(`DK-pAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
