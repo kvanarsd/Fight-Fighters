@@ -5,7 +5,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
-        this.setImmovable(true)
+        this.body.setGravityY(game.settings.gravity);
 
         // hero variables
         this.direction = 'right';
@@ -13,8 +13,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         this.health = game.settings.health;
         this.points = game.settings.points;
         this.speed = game.settings.speed;
-        this.grav = game.settings.gravity;
-        this.velY = game.settings.velocity;
+        this.velY = game.settings.jump;
         this.immune = false;
         this.second = false;
         this.attack = 30;
@@ -180,7 +179,11 @@ class RMJumpState extends State {
 
         let collide = player.body.touching
         if(!Phaser.Input.Keyboard.JustDown(WKey) && (scene.onFloor || collide.down)) {
-            this.stateMachine.transition('idle')
+            player.once('animationcomplete', () => {
+                this.stateMachine.transition('idle')
+            })
+            //console.log("stop")
+            //this.stateMachine.transition('idle')
         }
         if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(WKey) && !scene.onFloor) {
             player.doubleJump = 2;

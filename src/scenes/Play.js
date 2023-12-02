@@ -4,6 +4,10 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // game settings
+        this.height = game.config.height;
+        this.width = game.config.width;
+
         // background
         const background = this.add.image(0,0,"bckg", 0).setOrigin(0,0).setScale(0.75);
         const rocks = this.add.image(0,0,"rocks", 0).setOrigin(0,0).setScale(0.75);
@@ -15,10 +19,6 @@ class Play extends Phaser.Scene {
         this.light.setDepth(11)
         this.light.setAlpha(0.5)
         this.lightDim = true
-
-        // game settings
-        this.height = game.config.height;
-        this.width = game.config.width;
 
         // Dr Karate keys
         this.keys = this.input.keyboard.createCursorKeys()
@@ -36,6 +36,15 @@ class Play extends Phaser.Scene {
         // players
         this.Rumble = new RM(this, this.width/4, this.height - borderPadding, "", 0);
         this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding, "", 0);
+        
+        // ground collision
+        const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 1).setOrigin(0,0)
+        this.physics.add.existing(ground, true)
+
+        this.physics.add.collider(ground, this.Rumble, () => {
+            this.onFloor = true;
+        })
+        this.physics.add.collider(ground, this.Dr)
 
         // parse dialog from JSON file
         this.dialog = this.cache.json.get('dialog')
@@ -67,8 +76,6 @@ class Play extends Phaser.Scene {
 
 
         // attacks out of bounds
-        this.rightBound = this.add.rectangle(this.width/2, this.height/2, 100, 100);
-        this.rightBound.alpha = 0;
         this.RmiddleBound = new Phaser.Geom.Rectangle(0, 0, this.width/2 - borderPadding, this.height);
         this.DmiddleBound = new Phaser.Geom.Rectangle(this.width/2 + borderPadding, 0, this.width/2 - borderPadding, this.height);
  

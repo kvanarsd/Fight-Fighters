@@ -5,7 +5,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
-        this.setImmovable(true)
+        this.body.setGravityY(900);
 
         // hero variables
         this.direction = 'left';
@@ -14,7 +14,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.points = game.settings.points;
         this.speed = game.settings.speed;
         this.grav = game.settings.gravity;
-        this.velY = game.settings.velocity;
+        this.velY = game.settings.jump;
         this.immune = false;
         this.second = false;
         this.attack = 30;
@@ -175,7 +175,7 @@ class JumpState extends State {
         if(!Phaser.Input.Keyboard.JustDown(up) && (scene.onFloor || collide.down)) {
             this.stateMachine.transition('idle')
         }
-        if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(up) && !scene.onFloor) {
+        if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(up) && !collide.down) {
             player.doubleJump = 2;
             this.stateMachine.transition('dubJump')
         } 

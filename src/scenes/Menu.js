@@ -75,7 +75,7 @@ class Menu extends Phaser.Scene {
                     points: 200,
                     speed: 300,
                     gravity: 700,
-                    jump: 400
+                    jump: -400
                 }
                 this.scene.start("playScene");
             }
