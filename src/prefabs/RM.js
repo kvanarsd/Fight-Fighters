@@ -78,12 +78,13 @@ class RMIdleState extends State {
             return
         }
 
-        if(Phaser.Input.Keyboard.JustDown(CKey) && !player.second) {
+        const C = Phaser.Input.Keyboard.JustDown(CKey);
+        if(C && !player.second) {
             this.stateMachine.transition('norm')
             return
         }
 
-        if(Phaser.Input.Keyboard.JustDown(CKey) && player.second) {
+        if(C && player.second) {
             this.stateMachine.transition('sec')
             return
         }
@@ -232,19 +233,19 @@ class RMDubJumpState extends State {
 
 class RMDuckState extends State {
     enter(scene, player) {
-        player.body.setSize(124,30).setOffset(0,108)
+        //player.body.setSize(124,30).setOffset(0,108)
         player.anims.play(`RM-duck-${player.direction}`)
         
     }execute(scene, player) {
         if(player.hurt && !player.immune) {
-            player.body.setSize(50,138).setOffset(74,0)
+            //player.body.setSize(50,138).setOffset(74,0)
             this.stateMachine.transition('hurt')
             return
         }
 
         player.once('animationcomplete', () => {
             scene.time.delayedCall(200, () => {
-                player.body.setSize(50,138).setOffset(74,0)
+                //player.body.setSize(50,138).setOffset(74,0)
                 this.stateMachine.transition('idle')
             })
         })
@@ -273,19 +274,21 @@ class RMNormAttackState extends State {
         player.anims.play(`RM-nAttack-${player.direction}`)
 
         player.second = true;
-        scene.time.delayedCall(100, () => {
+        scene.time.delayedCall(700, function () {
             player.second = false;
-        })
-
-        player.once('animationcomplete', () => {
-            this.stateMachine.transition('idle')
-        })
+        }, [], scene)
+        console.log("first")
+        
     }
     execute(scene, player) {
+        
         if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
+        player.once('animationcomplete', () => {
+            this.stateMachine.transition('idle')
+        })
     }
 }
 
@@ -294,11 +297,13 @@ class RMSecAttackState extends State {
         player.attacking = true;
         player.attack += 20;
         player.second = false;
-        player.anims.play(`RM-sAttack-${player.direction}`)
+        player.anims.play(`RM-nAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
         })
+
+        console.log("second")
     }
     execute(scene, player) {
         if(player.hurt && !player.immune) {

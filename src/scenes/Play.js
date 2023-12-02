@@ -114,7 +114,7 @@ class Play extends Phaser.Scene {
             console.log("speak")
             this.Rumble.spoken = true;
             const talk = new Attack(this, this.Rumble.x, this.Rumble.y, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
-            this.dialogWord++;w
+            this.dialogWord++;
         }
 
         if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
