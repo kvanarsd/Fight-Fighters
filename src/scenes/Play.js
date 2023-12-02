@@ -4,6 +4,18 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        // background
+        const background = this.add.image(0,0,"bckg", 0).setOrigin(0,0).setScale(0.75);
+        const rocks = this.add.image(0,0,"rocks", 0).setOrigin(0,0).setScale(0.75);
+        const outline = this.add.image(0,0,"outer", 0).setOrigin(0,0).setScale(0.75);
+        this.light = this.add.image(0,0,"light", 0).setOrigin(0,0).setScale(0.75);
+
+        rocks.setDepth(9)
+        outline.setDepth(10)
+        this.light.setDepth(11)
+        this.light.setAlpha(0.5)
+        this.lightDim = true
+
         // game settings
         this.height = game.config.height;
         this.width = game.config.width;
@@ -69,6 +81,12 @@ class Play extends Phaser.Scene {
         this.Rumble.state.step();
         this.Dr.state.step();
 
+        // lighting
+        if(this.light.alpha >= 0.5 && this.lightDim) {
+            const addLight = this.light.alpha - 0.01
+            this.light.setAlpha(addLight)
+        }
+
         // check still talking 
         if(this.dialogTalking) {
             // if at end of current line
@@ -91,13 +109,16 @@ class Play extends Phaser.Scene {
 
         // iterate by attack
         if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
+            
+            this.light.setAlpha(1)
             console.log("speak")
             this.Rumble.spoken = true;
             const talk = new Attack(this, this.Rumble.x, this.Rumble.y, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
-            this.dialogWord++;
+            this.dialogWord++;w
         }
 
         if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
+            this.light.setAlpha(1)
             console.log("speak")
             this.Dr.spoken = true;
             const talk = new Attack(this, this.Dr.x, this.Dr.y, '', 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])

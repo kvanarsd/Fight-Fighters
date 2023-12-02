@@ -6,6 +6,7 @@ Game Name: Fight Fighters
 Hours: Probably almost 30 but I forgot to keep track again
 */
 let config = {
+    parent: "gameView",
     type: Phaser.AUTO,
     render: {
         pixelArt: true
@@ -16,8 +17,12 @@ let config = {
             debug: true
         }
     },
-    width: 800,
-    height: 480,
+    width: 750,
+    height: 609,
+    scale: {
+        mode: Phaser.Scale.NONE,
+        autoCenter: Phaser.Scale.HORIZONTALLY
+    },
     scene: [ Load, Menu, Play]
 }
 

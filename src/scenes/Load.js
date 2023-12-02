@@ -13,10 +13,16 @@ class Load extends Phaser.Scene {
         // load fonts
         this.load.bitmapFont('midnew', 'fonts/midnewbmp.png', 'fonts/midnewbmp.xml')
 
-        // load imgs
+        // load sprites
         this.load.spritesheet("character", "img/Character_002.png", {
             frameWidth: 48
         })
+
+        // load background
+        this.load.image("bckg", "img/Background.png");
+        this.load.image("outer", "img/Outline.png");
+        this.load.image("rocks", "img/rocks.png");
+        this.load.image("light", "img/lighting.png");
 
     }
 
