@@ -181,15 +181,14 @@ class RMJumpState extends State {
         }
 
         let collide = player.body.touching
-        console.log(collide.down)
+
         if(collide.down) {
             this.stateMachine.transition('idle')
-            //console.log("stop")
-            //this.stateMachine.transition('idle')
         }
-        if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(WKey) && !scene.onFloor) {
+        if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(WKey) && !collide.down) {
             player.doubleJump = 2;
             this.stateMachine.transition('dubJump')
+            return
         } 
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {
@@ -201,18 +200,16 @@ class RMJumpState extends State {
             this.stateMachine.transition('pow')
             return
         }
-
-        
     }
 }
 
 class RMDubJumpState extends State {
     enter(scene, player) {
-        player.setVelocityY(player.velocity)
+        player.setVelocityY(player.velY)
     }
     execute(scene, player) {
         const CKey = scene.keys.CKey;
-        const VKey = scene.keys.Vkey;
+        const VKey = scene.keys.VKey;
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {
             this.stateMachine.transition('fir')

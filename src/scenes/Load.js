@@ -249,6 +249,16 @@ class Load extends Phaser.Scene {
             })
         })
 
+        this.anims.create({
+            key: "DK-jump-left",
+            frameRate: 5,
+            repeat: 0,
+            frames: this.anims.generateFrameNumbers("character", {
+                start: 9,
+                end: 11
+            })
+        })
+
         this.scene.start("menuScene");
     }
 }

@@ -175,12 +175,16 @@ class JumpState extends State {
         }
 
         let collide = player.body.touching
-        if(!Phaser.Input.Keyboard.JustDown(up) && (scene.onFloor || collide.down)) {
+
+        if(collide.down) {
             this.stateMachine.transition('idle')
+            return
         }
+
         if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(up) && !collide.down) {
             player.doubleJump = 2;
             this.stateMachine.transition('dubJump')
+            return
         } 
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
@@ -199,7 +203,7 @@ class JumpState extends State {
 
 class DubJumpState extends State {
     enter(scene, player) {
-        player.setVelocityY(player.velocity)
+        player.setVelocityY(player.velY)
     }
     execute(scene, player) {
         const OKey = scene.keys.OKey;
