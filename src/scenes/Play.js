@@ -39,6 +39,12 @@ class Play extends Phaser.Scene {
         this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding*2, "character", 0).setScale(3).setOrigin(0.5,0.5);
         this.Dr.setSize(this.Rumble.width/2.5, this.Rumble.height/1.5).setOffset(16,16)
         
+        // player health bars
+        this.barLeft = this.add.image(borderPadding * 2.7, borderPadding*0.8, "bar").setOrigin(1,0.5);
+        this.barRight = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "bar").setOrigin(0,0.5);
+        this.Rumble.healthBar = this.add.image(borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(1,0.5);
+        this.Dr.healthBar = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(0,0.5);
+
         // ground collisiond
         const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 1).setOrigin(0,0)
         this.physics.add.existing(ground, true)
@@ -147,6 +153,18 @@ class Play extends Phaser.Scene {
         if(this.dialogSpeaker == "RM" && this.Rumble.hurt) {
             this.dialogTalking = false;
             this.convoTimer.paused = false;
+        }
+
+        // power up
+        //console.log(this.Rumble.powScore)
+        if(this.Rumble.powScore >= 100) {
+            console.log("POWER UP")
+            this.Rumble.powerUp = true
+            this.Rumble.powScore = 0
+        }
+        if(this.Dr.powScore >= 100) {
+            this.Dr.powerUp = true
+            this.Dr.powScore = 0
         }
     }
 

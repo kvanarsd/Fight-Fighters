@@ -26,6 +26,10 @@ class Load extends Phaser.Scene {
         this.load.image("rocks", "img/rocks.png");
         this.load.image("light", "img/lighting.png");
 
+        // health bar
+        this.load.image("bar", "img/healthBar.png");
+        this.load.image("health", "img/health.png");
+
     }
 
     create() {
@@ -59,7 +63,7 @@ class Load extends Phaser.Scene {
                 start: 1,
                 end: 3,
             }),
-            frameRate: 5,
+            frameRate: 8,
             repeat: -1
         })
 

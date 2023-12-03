@@ -20,7 +20,7 @@ let config = {
     width: 750,
     height: 609,
     scale: {
-        mode: Phaser.Scale.NONE,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.HORIZONTALLY
     },
     scene: [ Load, Menu, Play]

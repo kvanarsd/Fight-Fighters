@@ -11,6 +11,9 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
             console.log("hit")
             enemy.hurt = true;
             enemy.health -= player.attack;
+            player.powScore += player.attack;
+            console.log(player.powScore)
+            enemy.healthBar.setScale(enemy.health/1000, 1)
             this.destroy();
             if(word != "") {
                 this.text.destroy();

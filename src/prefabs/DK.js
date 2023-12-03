@@ -22,6 +22,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.attacking = false;
         this.hurt = false;
         this.spoken = false             // one word per attack
+        this.powScore = 0;
 
         //state machine
         this.state = new StateMachine('idle', {
