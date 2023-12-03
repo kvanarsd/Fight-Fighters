@@ -18,6 +18,8 @@ class Load extends Phaser.Scene {
             frameWidth: 48
         })
 
+        this.load.atlas('attacks', 'img/attackAnims.png', 'json/attackAnims.json')
+
         // load background
         this.load.image("bckg", "img/Background.png");
         this.load.image("outer", "img/Outline.png");
@@ -27,6 +29,75 @@ class Load extends Phaser.Scene {
     }
 
     create() {
+        // Rumble attack anims
+        this.anims.create({
+            key: "RM-First",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'RMfir',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "RM-Second",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'RMsec',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: "RM-Pow",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'RMpow',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 5,
+            repeat: -1
+        })
+
+        // Dr attack anims
+        this.anims.create({
+            key: "DR-First",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'DRfir',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "DR-Second",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'DRsec',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "DR-Pow",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'DRpow',
+                start: 1,
+                end: 7,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+
         // Rumble Animations
         this.anims.create({
             key: "RM-idle-right",

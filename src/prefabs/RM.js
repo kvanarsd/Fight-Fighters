@@ -6,6 +6,8 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
         this.body.setGravityY(game.settings.gravity);
+        this.setMass(3)
+        this.body.setDragX(100)
 
         // hero variables
         this.direction = 'right';
@@ -178,10 +180,9 @@ class RMJumpState extends State {
         }
 
         let collide = player.body.touching
-        if(!Phaser.Input.Keyboard.JustDown(WKey) && (scene.onFloor || collide.down)) {
-            player.once('animationcomplete', () => {
-                this.stateMachine.transition('idle')
-            })
+        console.log(collide.down)
+        if(collide.down) {
+            this.stateMachine.transition('idle')
             //console.log("stop")
             //this.stateMachine.transition('idle')
         }

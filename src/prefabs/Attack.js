@@ -4,6 +4,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
+        this.setBounce(0.2)
 
         scene.physics.add.collider(enemy, this, () => {
             enemy.health -= player.attack;

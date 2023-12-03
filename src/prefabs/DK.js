@@ -5,7 +5,9 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
-        this.body.setGravityY(900);
+        this.body.setGravityY(game.settings.gravity);
+        this.setMass(3)
+        this.body.setDragX(100)
 
         // hero variables
         this.direction = 'left';
@@ -13,7 +15,6 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.health = game.settings.health;
         this.points = game.settings.points;
         this.speed = game.settings.speed;
-        this.grav = game.settings.gravity;
         this.velY = game.settings.jump;
         this.immune = false;
         this.second = false;
