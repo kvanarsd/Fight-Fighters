@@ -34,10 +34,12 @@ class Play extends Phaser.Scene {
         this.keys.VKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V)
 
         // players
-        this.Rumble = new RM(this, this.width/4, this.height - borderPadding, "", 0);
-        this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding, "", 0);
+        this.Rumble = new RM(this, this.width/4, this.height - borderPadding*2, "character", 0).setScale(3).setOrigin(0.5,0.5);
+        this.Rumble.setSize(this.Rumble.width/2.5, this.Rumble.height/1.5).setOffset(13,16)
+        this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding*2, "character", 0).setScale(3).setOrigin(0.5,0.5);
+        this.Dr.setSize(this.Rumble.width/2.5, this.Rumble.height/1.5).setOffset(16,16)
         
-        // ground collision
+        // ground collisiond
         const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 1).setOrigin(0,0)
         this.physics.add.existing(ground, true)
 
@@ -76,8 +78,8 @@ class Play extends Phaser.Scene {
 
 
         // attacks out of bounds
-        this.RmiddleBound = new Phaser.Geom.Rectangle(0, 0, this.width/2 - borderPadding, this.height);
-        this.DmiddleBound = new Phaser.Geom.Rectangle(this.width/2 + borderPadding, 0, this.width/2 - borderPadding, this.height);
+        this.RmiddleBound = new Phaser.Geom.Rectangle(0, 0, this.width/2 - borderPadding/2, this.height);
+        this.DmiddleBound = new Phaser.Geom.Rectangle(this.width/2 + borderPadding/2, 0, this.width/2 - borderPadding/2, this.height);
  
         this.Rumble.body.setBoundsRectangle(this.RmiddleBound)
         this.Dr.body.setBoundsRectangle(this.DmiddleBound)
@@ -116,13 +118,16 @@ class Play extends Phaser.Scene {
 
         // iterate by attack
         if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
-            
             this.light.setAlpha(1)
             console.log("speak")
             this.Rumble.spoken = true;
             const texture = "RM" + this.Rumble.state.state
             const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
             this.dialogWord++;
+        } else if(this.Rumble.attacking && !this.Rumble.spoken) {
+            this.Rumble.spoken = true;
+            const texture = "RM" + this.Rumble.state.state
+            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
         }
 
         if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
@@ -132,6 +137,10 @@ class Play extends Phaser.Scene {
             const texture = "DR" + this.Dr.state.state
             const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
             this.dialogWord++;
+        } else if(this.Dr.attacking && !this.Dr.spoken) {
+            this.Dr.spoken = true;
+            const texture = "DR" + this.Dr.state.state
+            const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
         }
 
         // end convo if speaker is hurt

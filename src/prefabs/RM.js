@@ -160,6 +160,7 @@ class RMRunState extends State {
 
 class RMJumpState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.anims.play(`RM-jump-${player.direction}`)
         scene.notJump = false
 
@@ -237,6 +238,7 @@ class RMDubJumpState extends State {
 
 class RMDuckState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         //player.body.setSize(124,30).setOffset(0,108)
         player.anims.play(`RM-duck-${player.direction}`)
         
@@ -258,6 +260,7 @@ class RMDuckState extends State {
 
 class RMHurtState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = false;
         player.immune = true;
         player.anims.play(`RM-hurt-${player.direction}`)
@@ -274,6 +277,7 @@ class RMHurtState extends State {
 
 class RMfirAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.anims.play(`RM-nAttack-${player.direction}`)
 
@@ -285,7 +289,6 @@ class RMfirAttackState extends State {
         
     }
     execute(scene, player) {
-        
         if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
@@ -298,6 +301,7 @@ class RMfirAttackState extends State {
 
 class RMSecAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.attack += 20;
         player.second = false;
@@ -319,6 +323,7 @@ class RMSecAttackState extends State {
 
 class RMPowAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.attack *= 3;
         player.anims.play(`RM-pAttack-${player.direction}`)

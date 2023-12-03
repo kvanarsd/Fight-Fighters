@@ -76,12 +76,13 @@ class IdleState extends State {
             return
         }
 
-        if(Phaser.Input.Keyboard.JustDown(OKey) && !player.second) {
+        const O = Phaser.Input.Keyboard.JustDown(OKey);
+        if(O && !player.second) {
             this.stateMachine.transition('fir')
             return
         }
 
-        if(Phaser.Input.Keyboard.JustDown(OKey) && player.second) {
+        if(O && player.second) {
             this.stateMachine.transition('sec')
             return
         }
@@ -153,6 +154,7 @@ class RunState extends State {
 
 class JumpState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.anims.play(`DK-jump-${player.direction}`)
         scene.notJump = false
 
@@ -227,6 +229,7 @@ class DubJumpState extends State {
 
 class DuckState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.body.setSize(124,30).setOffset(0,108)
         player.anims.play(`DK-duck-${player.direction}`)
         
@@ -248,6 +251,7 @@ class DuckState extends State {
 
 class HurtState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = false;
         player.immune = true;
         player.anims.play(`DK-hurt-${player.direction}`)
@@ -264,28 +268,31 @@ class HurtState extends State {
 
 class firAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.anims.play(`DK-nAttack-${player.direction}`)
 
         player.second = true;
-        scene.time.delayedCall(100, () => {
+        scene.time.delayedCall(700, function () {
             player.second = false;
-        })
-
-        player.once('animationcomplete', () => {
-            this.stateMachine.transition('idle')
-        })
+        }, [], scene)
+        console.log("first")
+        
     }
     execute(scene, player) {
         if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
         }
+        player.once('animationcomplete', () => {
+            this.stateMachine.transition('idle')
+        })
     }
 }
 
 class SecAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.attack += 20;
         player.second = false;
@@ -305,6 +312,7 @@ class SecAttackState extends State {
 
 class PowAttackState extends State {
     enter(scene, player) {
+        player.setVelocityX(0)
         player.attacking = true;
         player.attack *= 3;
         player.anims.play(`DK-pAttack-${player.direction}`)

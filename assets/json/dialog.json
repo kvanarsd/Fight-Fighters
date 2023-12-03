@@ -22,12 +22,13 @@
 	[
 		{
 			"speaker" : "DK",
-			"dialog" : "See now, how men lay blame upon us gods for what is after all nothing but their own folly.",
+			"dialog" : "See now",
 			"newSpeaker" : "true"
 		},
 		{
-			"speaker" : "DK",
-			"dialog" : "Look at Aegisthus; he must needs make love to Agamemnon's wife unrighteously and then kill Agamemnon, though he knew it would be the death of him."
+			"speaker" : "RM",
+			"dialog" : "Look at Aegisthus; ",
+			"newSpeaker" : "true"
 		},
 		{	
 			"speaker" : "minerva",

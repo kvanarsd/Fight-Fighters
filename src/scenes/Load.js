@@ -157,6 +157,26 @@ class Load extends Phaser.Scene {
                 end: 11
             })
         })
+
+        this.anims.create({
+            key: "RM-hurt-right",
+            frameRate: 5,
+            repeat: 0,
+            frames: this.anims.generateFrameNumbers("character", {
+                start: 9,
+                end: 11
+            })
+        })
+
+        this.anims.create({
+            key: "RM-hurt-left",
+            frameRate: 5,
+            repeat: 0,
+            frames: this.anims.generateFrameNumbers("character", {
+                start: 9,
+                end: 11
+            })
+        })
         
         // Dr Animations
         this.anims.create({
@@ -201,6 +221,26 @@ class Load extends Phaser.Scene {
 
         this.anims.create({
             key: "DK-nAttack-left",
+            frameRate: 5,
+            repeat: 0,
+            frames: this.anims.generateFrameNumbers("character", {
+                start: 9,
+                end: 11
+            })
+        })
+
+        this.anims.create({
+            key: "DK-hurt-right",
+            frameRate: 5,
+            repeat: 0,
+            frames: this.anims.generateFrameNumbers("character", {
+                start: 9,
+                end: 11
+            })
+        })
+
+        this.anims.create({
+            key: "DK-hurt-left",
             frameRate: 5,
             repeat: 0,
             frames: this.anims.generateFrameNumbers("character", {

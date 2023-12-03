@@ -8,14 +8,14 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0.2)
 
         scene.physics.add.collider(enemy, this, () => {
+            console.log("hit")
+            enemy.hurt = true;
             enemy.health -= player.attack;
             this.destroy();
-            this.text.destroy();
+            if(word != "") {
+                this.text.destroy();
+            }
         }, null, scene);
-
-        // word
-        this.text = scene.add.bitmapText(x, y, 'midnew', word, 15, 1).setOrigin(0.5)
-        scene.physics.world.enable(this.text)
 
         // movement
         if(direction == 'right') {
@@ -25,7 +25,14 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         }
 
         this.setVelocityX(200 * this.direction);
-        this.text.body.setVelocityX(200 * this.direction);
+
+        // word
+        if(word != "") {
+            this.text = scene.add.bitmapText(x, y, 'midnew', word, 15, 1).setOrigin(0.5)
+            scene.physics.world.enable(this.text)
+            this.text.body.setVelocityX(200 * this.direction);
+        }
+        
     }
 
     update() {
