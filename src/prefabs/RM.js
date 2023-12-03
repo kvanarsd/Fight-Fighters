@@ -31,7 +31,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
             dubJump: new RMDubJumpState(),
             duck: new RMDuckState(),
             hurt: new RMHurtState(),
-            norm: new RMNormAttackState(),
+            fir: new RMfirAttackState(),
             sec: new RMSecAttackState(),
             pow: new RMPowAttackState()
         }, [scene, this])
@@ -81,7 +81,7 @@ class RMIdleState extends State {
 
         const C = Phaser.Input.Keyboard.JustDown(CKey);
         if(C && !player.second) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -130,7 +130,7 @@ class RMRunState extends State {
         }
 
         if(Phaser.Input.Keyboard.JustDown(CKey) && !player.second) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -192,7 +192,7 @@ class RMJumpState extends State {
         } 
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -214,7 +214,7 @@ class RMDubJumpState extends State {
         const VKey = scene.keys.Vkey;
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -272,7 +272,7 @@ class RMHurtState extends State {
     }
 }
 
-class RMNormAttackState extends State {
+class RMfirAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
         player.anims.play(`RM-nAttack-${player.direction}`)

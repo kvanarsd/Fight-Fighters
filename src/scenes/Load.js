@@ -31,7 +31,7 @@ class Load extends Phaser.Scene {
     create() {
         // Rumble attack anims
         this.anims.create({
-            key: "RM-First",
+            key: "RMfir",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMfir',
                 start: 1,
@@ -42,7 +42,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "RM-Second",
+            key: "RMsec",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMsec',
                 start: 1,
@@ -53,7 +53,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "RM-Pow",
+            key: "RMpow",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMpow',
                 start: 1,
@@ -65,7 +65,7 @@ class Load extends Phaser.Scene {
 
         // Dr attack anims
         this.anims.create({
-            key: "DR-First",
+            key: "DRfir",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'DRfir',
                 start: 1,
@@ -76,7 +76,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "DR-Second",
+            key: "DRsec",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'DRsec',
                 start: 1,
@@ -87,7 +87,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "DR-Pow",
+            key: "DRpow",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'DRpow',
                 start: 1,

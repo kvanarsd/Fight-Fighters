@@ -120,7 +120,8 @@ class Play extends Phaser.Scene {
             this.light.setAlpha(1)
             console.log("speak")
             this.Rumble.spoken = true;
-            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, '', 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+            const texture = "RM" + this.Rumble.state.state
+            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
             this.dialogWord++;
         }
 
@@ -128,7 +129,8 @@ class Play extends Phaser.Scene {
             this.light.setAlpha(1)
             console.log("speak")
             this.Dr.spoken = true;
-            const talk = new Attack(this, this.Dr.x, this.Dr.y, '', 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
+            const texture = "DR" + this.Dr.state.state
+            const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
             this.dialogWord++;
         }
 

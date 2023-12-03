@@ -31,7 +31,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
             dubJump: new DubJumpState(),
             duck: new DuckState(),
             hurt: new HurtState(),
-            norm: new NormAttackState(),
+            fir: new firAttackState(),
             sec: new SecAttackState(),
             pow: new PowAttackState()
         }, [scene, this])
@@ -77,7 +77,7 @@ class IdleState extends State {
         }
 
         if(Phaser.Input.Keyboard.JustDown(OKey) && !player.second) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -123,7 +123,7 @@ class RunState extends State {
         }
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -182,7 +182,7 @@ class JumpState extends State {
         } 
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -204,7 +204,7 @@ class DubJumpState extends State {
         const PKey = scene.keys.PKey;
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
-            this.stateMachine.transition('norm')
+            this.stateMachine.transition('fir')
             return
         }
 
@@ -262,7 +262,7 @@ class HurtState extends State {
     }
 }
 
-class NormAttackState extends State {
+class firAttackState extends State {
     enter(scene, player) {
         player.attacking = true;
         player.anims.play(`DK-nAttack-${player.direction}`)

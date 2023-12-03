@@ -1,6 +1,7 @@
 class Attack extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture, frame, player, direction, enemy, word) {
         super(scene, x, y, texture, frame, player, direction, enemy, word);
+        this.anims.play(texture)
 
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
@@ -13,7 +14,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         }, null, scene);
 
         // word
-        this.text = scene.add.bitmapText(x, y, 'midnew', word, 30, 1).setOrigin(0.5)
+        this.text = scene.add.bitmapText(x, y, 'midnew', word, 15, 1).setOrigin(0.5)
         scene.physics.world.enable(this.text)
 
         // movement
