@@ -8,7 +8,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0.2)
 
         scene.physics.add.collider(enemy, this, () => {
-            console.log("hit")
+            //console.log("hit")
             enemy.hurt = true;
             enemy.health -= player.attack;
             player.powScore += player.attack;
@@ -27,13 +27,44 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
             this.direction = -1;
         }
 
-        this.setVelocityX(200 * this.direction);
+        this.setVelocityX(270 * this.direction);
 
         // word
         if(word != "") {
-            this.text = scene.add.bitmapText(x, y, 'midnew', word, 15, 1).setOrigin(0.5)
-            scene.physics.world.enable(this.text)
-            this.text.body.setVelocityX(200 * this.direction);
+            this.text = scene.add.bitmapText(scene.width/2, scene.height/2, 'midnew', word, 52, 1).setOrigin(0.5).setScale(.5).setAlpha(0.2);
+            //scene.physics.world.enable(this.text)
+            //this.text.body.setVelocityX(270 * this.direction);
+
+            // tween attack text
+            
+
+            var TweenOut = scene.tweens.add({
+                targets: this.text,
+                duration: 2000,
+                ease: 'Linear',
+                repeat: 0,
+                yoyo: false,
+                scaleX: 2,
+                scaleY: 2,
+                alpha: 0
+            });
+
+            var TweenIn = scene.tweens.add({
+                targets: this.text,
+                duration: 500,
+                ease: 'Linear',
+                repeat: 0,
+                yoyo: false,
+                scaleX: 1,
+                scaleY: 1,
+                alpha: 1,
+                onComplete: function() {
+                    this.text.setScale(1)
+                    TweenOut.play();
+                }
+            });
+
+            TweenIn.play();
         }
         
     }
@@ -41,7 +72,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
     update() {
         console.log(this.x)
         if(this.x > scene.width + borderPadding || this.x < -borderPadding) {
-            console.log("destroyed")
+            //console.log("destroyed")
             this.destroy();
             this.text.destroy();
         }

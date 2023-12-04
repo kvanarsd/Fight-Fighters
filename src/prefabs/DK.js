@@ -166,9 +166,14 @@ class JumpState extends State {
     
     }
     execute(scene, player) {
-        const {up} = scene.keys
+        const { right, up, left} = scene.keys
         const OKey = scene.keys.OKey;
         const PKey = scene.keys.PKey;
+
+        if(Phaser.Input.Keyboard.JustDown(right) || Phaser.Input.Keyboard.JustDown(left)) {
+            this.stateMachine.transition('run')
+            return
+        }
 
         if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
@@ -281,7 +286,7 @@ class firAttackState extends State {
         scene.time.delayedCall(700, function () {
             player.second = false;
         }, [], scene)
-        console.log("first")
+        //console.log("first")
         
     }
     execute(scene, player) {

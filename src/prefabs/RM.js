@@ -172,10 +172,17 @@ class RMJumpState extends State {
     
     }
     execute(scene, player) {
-        const {WKey} = scene.keys
+        const WKey = scene.keys.WKey;
+        const AKey = scene.keys.AKey;
+        const DKey = scene.keys.DKey;
         const CKey = scene.keys.CKey;
         const VKey = scene.keys.VKey;
 
+        if(Phaser.Input.Keyboard.JustDown(DKey) || Phaser.Input.Keyboard.JustDown(AKey)) {
+            this.stateMachine.transition('run')
+            return
+        }
+        
         if(player.hurt && !player.immune) {
             this.stateMachine.transition('hurt')
             return
