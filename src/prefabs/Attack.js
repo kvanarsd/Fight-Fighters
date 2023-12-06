@@ -10,10 +10,19 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.collider(enemy, this, () => {
             //console.log("hit")
             enemy.hurt = true;
-            enemy.health -= player.attack;
-            player.powScore += player.attack;
+            let attackPoints = player.attack;
+            if(word != "") {
+                attackPoints *= 2;
+            }
+            enemy.health -= attackPoints;
+            player.powScore += attackPoints;
             console.log(player.powScore)
-            enemy.healthBar.setScale(enemy.health/1000, 1)
+            if(enemy.health <= 0) {
+                enemy.health = 0;
+                scene.gameOver = true;
+            } else {
+                enemy.healthBar.setScale(enemy.health/1000, 1)
+            }
             this.destroy();
             if(word != "") {
                 this.text.destroy();
@@ -37,17 +46,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
 
             // tween attack text
             
-
-            var TweenOut = scene.tweens.add({
-                targets: this.text,
-                duration: 2000,
-                ease: 'Linear',
-                repeat: 0,
-                yoyo: false,
-                scaleX: 2,
-                scaleY: 2,
-                alpha: 0
-            });
+            this.text.setScale(.5)
 
             var TweenIn = scene.tweens.add({
                 targets: this.text,
@@ -59,9 +58,22 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
                 scaleY: 1,
                 alpha: 1,
                 onComplete: function() {
-                    this.text.setScale(1)
+                    this.targets[0].setScale(1);
+                    this.targets[0].setAlpha(1)
                     TweenOut.play();
                 }
+            });
+
+            var TweenOut = scene.tweens.add({
+                targets: this.text,
+                duration: 1000,
+                ease: 'Linear',
+                repeat: 0,
+                yoyo: false,
+                scaleX: 2,
+                scaleY: 2,
+                alpha: 0,
+                delay: 500
             });
 
             TweenIn.play();

@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         // game settings
         this.height = game.config.height;
         this.width = game.config.width;
+        this.gameOver = false;
 
         // background
         const background = this.add.image(0,0,"bckg", 0).setOrigin(0,0).setScale(0.75);
@@ -93,78 +94,88 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        this.Rumble.state.step();
-        this.Dr.state.step();
+        if(!this.gameOver) {
+            this.Rumble.state.step();
+            this.Dr.state.step();
 
-        // lighting
-        if(this.light.alpha >= 0.5 && this.lightDim) {
-            const addLight = this.light.alpha - 0.01
-            this.light.setAlpha(addLight)
-        }
+            // lighting
+            if(this.light.alpha >= 0.5 && this.lightDim) {
+                const addLight = this.light.alpha - 0.01
+                this.light.setAlpha(addLight)
+            }
 
-        // check still talking 
-        if(this.dialogTalking) {
-            // if at end of current line
-            if(this.dialogWord >= this.dialogWords.length) {
-                // if convo still has lines
-                if(this.dialogLine < this.dialogLines) {
-                    this.dialogLine++;
-                    this.dialogWord = 0;
-                    this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
+            // check still talking 
+            if(this.dialogTalking) {
+                // if at end of current line
+                if(this.dialogWord >= this.dialogWords.length) {
+                    // if convo still has lines
+                    if(this.dialogLine < this.dialogLines) {
+                        this.dialogLine++;
+                        this.dialogWord = 0;
+                        this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
 
-                    if(this.dialog[this.dialogConvo][this.dialogLine]['newSpeaker']) {
-                        this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
+                        if(this.dialog[this.dialogConvo][this.dialogLine]['newSpeaker']) {
+                            this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
+                        }
+                    } else { // no more lines - end convo
+                        this.dialogTalking = false;
+                        this.convoTimer.paused = false;
                     }
-                } else { // no more lines - end convo
-                    this.dialogTalking = false;
-                    this.convoTimer.paused = false;
                 }
             }
-        }
 
-        // iterate by attack
-        if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
-            this.light.setAlpha(1)
-            console.log("speak")
-            this.Rumble.spoken = true;
-            const texture = "RM" + this.Rumble.state.state
-            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
-            this.dialogWord++;
-        } else if(this.Rumble.attacking && !this.Rumble.spoken) {
-            this.Rumble.spoken = true;
-            const texture = "RM" + this.Rumble.state.state
-            const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
-        }
+            // iterate by attack
+            if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
+                this.light.setAlpha(1)
+                console.log("speak")
+                this.Rumble.spoken = true;
+                const texture = "RM" + this.Rumble.state.state
+                const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+                this.dialogWord++;
+            } else if(this.Rumble.attacking && !this.Rumble.spoken) {
+                this.Rumble.spoken = true;
+                const texture = "RM" + this.Rumble.state.state
+                const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
+            }
 
-        if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
-            this.light.setAlpha(1)
-            console.log("speak")
-            this.Dr.spoken = true;
-            const texture = "DR" + this.Dr.state.state
-            const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
-            this.dialogWord++;
-        } else if(this.Dr.attacking && !this.Dr.spoken) {
-            this.Dr.spoken = true;
-            const texture = "DR" + this.Dr.state.state
-            const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
-        }
+            if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
+                this.light.setAlpha(1)
+                console.log("speak")
+                this.Dr.spoken = true;
+                const texture = "DR" + this.Dr.state.state
+                const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
+                this.dialogWord++;
+            } else if(this.Dr.attacking && !this.Dr.spoken) {
+                this.Dr.spoken = true;
+                const texture = "DR" + this.Dr.state.state
+                const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
+            }
 
-        // end convo if speaker is hurt
-        if(this.dialogSpeaker == "RM" && this.Rumble.hurt) {
-            this.dialogTalking = false;
-            this.convoTimer.paused = false;
-        }
+            // end convo if speaker is hurt
+            if(this.dialogSpeaker == "RM" && this.Rumble.hurt && this.dialogWord != 0) {
+                this.dialogTalking = false;
+                this.convoTimer.paused = false;
+            }
 
-        // power up
-        //console.log(this.Rumble.powScore)
-        if(this.Rumble.powScore >= 100) {
-            console.log("POWER UP")
-            this.Rumble.powerUp = true
-            this.Rumble.powScore = 0
-        }
-        if(this.Dr.powScore >= 100) {
-            this.Dr.powerUp = true
-            this.Dr.powScore = 0
+            if(this.dialogSpeaker == "DK" && this.Dr.hurt && this.dialogWord != 0) {
+                this.dialogTalking = false;
+                this.convoTimer.paused = false;
+            }
+
+            // power up
+            //console.log(this.Rumble.powScore)
+            if(this.Rumble.powScore >= 100) {
+                console.log("POWER UP")
+                this.Rumble.powerUp = true
+                this.Rumble.powScore = 0
+            }
+            if(this.Dr.powScore >= 100) {
+                this.Dr.powerUp = true
+                this.Dr.powScore = 0
+            }
+        } else {
+            // game over
+            
         }
     }
 
@@ -183,15 +194,3 @@ class Play extends Phaser.Scene {
         console.log(this.dialogWords[this.dialogWord])
 
     }
-
-    convo() {
-        
-
-        // lock input while typing
-        this.dialogTyping = true
-
-        // clear text
-        this.dialogText.text = ''
-        this.nextText.text = ''
-    }
-}
