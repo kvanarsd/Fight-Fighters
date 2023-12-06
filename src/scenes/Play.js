@@ -175,6 +175,22 @@ class Play extends Phaser.Scene {
             }
         } else {
             // game over
+            let over = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'GAMEOVER', 52, 1).setOrigin(0.5,0.5);
+            let coin = this.add.bitmapText(this.width/2, this.height/2, 'midnew', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
+
+            var flash = this.tweens.add({
+                targets: over, coin,
+                duration: 500,
+                ease: 'Linear',
+                repeat: -1,
+                yoyo: true,
+                scaleX: 1,
+                scaleY: 1,
+                alpha: 0,
+            });
+
+            flash.play();
+
             
         }
     }
@@ -194,3 +210,4 @@ class Play extends Phaser.Scene {
         console.log(this.dialogWords[this.dialogWord])
 
     }
+}

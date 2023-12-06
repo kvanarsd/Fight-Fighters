@@ -20,6 +20,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
             if(enemy.health <= 0) {
                 enemy.health = 0;
                 scene.gameOver = true;
+                enemy.healthBar.setScale(0, 1)
             } else {
                 enemy.healthBar.setScale(enemy.health/1000, 1)
             }
