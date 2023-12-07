@@ -20,6 +20,8 @@ class Play extends Phaser.Scene {
 
         rocks.setDepth(9)
         outline.setDepth(10)
+
+        // lighting
         this.light.setDepth(11)
         this.light.setAlpha(0.5)
         this.lightDim = true
@@ -95,10 +97,10 @@ class Play extends Phaser.Scene {
             this.Dr.state.step();
 
             // lighting
-            if(this.light.alpha >= 0.5 && this.lightDim) {
-                const addLight = this.light.alpha - 0.01
-                this.light.setAlpha(addLight)
-            }
+            // if(this.light.alpha >= 0.5 && this.lightDim) {
+            //     const addLight = this.light.alpha - 0.01
+            //     this.light.setAlpha(addLight)
+            // }
 
             // check still talking 
             if(this.dialogTalking) {
@@ -122,26 +124,28 @@ class Play extends Phaser.Scene {
 
             // iterate by attack
             if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
-                this.light.setAlpha(1)
+                this.lightingAnim()
                 console.log("speak")
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Rumble.attacking && !this.Rumble.spoken) {
+                this.lightingAnim()
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
             }
 
             if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
-                this.light.setAlpha(1)
+                this.lightingAnim()
                 console.log("speak")
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state
                 const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Dr.attacking && !this.Dr.spoken) {
+                this.lightingAnim()
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state
                 const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
@@ -218,5 +222,17 @@ class Play extends Phaser.Scene {
         });
 
         this.tweenStarted = true;
+    }
+
+    lightingAnim() {
+        this.light.setAlpha(0.5)
+        var diming = this.tweens.add({
+            targets: this.light,
+            duration: 800,
+            ease: 'Linear',
+            repeat: 0,
+            yoyo: true,
+            alpha: 1,
+        });
     }
 }

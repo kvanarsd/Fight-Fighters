@@ -3,7 +3,7 @@ Katrina Vanarsdale
 
 Game Name: Fight Fighters
 
-Hours: Probably almost 30 but I forgot to keep track again
+Hours: 22 - 12/7/23
 */
 let config = {
     parent: "gameView",
