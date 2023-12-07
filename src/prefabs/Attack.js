@@ -7,23 +7,30 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this, false);
         this.setBounce(0.2)
 
+        // colliding with enemy
         scene.physics.add.collider(enemy, this, () => {
-            //console.log("hit")
             enemy.hurt = true;
+
             let attackPoints = player.attack;
             if(word != "") {
+                // multiply attack points by 2 if
+                // player is speaking while attacking
                 attackPoints *= 2;
             }
+            
             enemy.health -= attackPoints;
-            player.powScore += attackPoints;
-            console.log(player.powScore)
+            player.powScore += attackPoints; // loading power up
+
+            // if enemy is dead Game over and set everything to 0
             if(enemy.health <= 0) {
                 enemy.health = 0;
                 scene.gameOver = true;
                 enemy.healthBar.setScale(0, 1)
-            } else {
+            } else { // make healthbar smaller
                 enemy.healthBar.setScale(enemy.health/1000, 1)
             }
+
+            // destroy assets on collision
             this.destroy();
             if(word != "") {
                 this.text.destroy();
@@ -42,13 +49,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         // word
         if(word != "") {
             this.text = scene.add.bitmapText(scene.width/2, scene.height/2, 'midnew', word, 52, 1).setOrigin(0.5).setScale(.5).setAlpha(0.2);
-            //scene.physics.world.enable(this.text)
-            //this.text.body.setVelocityX(270 * this.direction);
-
             // tween attack text
-            
-            this.text.setScale(.5)
-
             var TweenIn = scene.tweens.add({
                 targets: this.text,
                 duration: 500,
@@ -83,9 +84,8 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        console.log(this.x)
+        // destroy if off screen
         if(this.x > scene.width + borderPadding || this.x < -borderPadding) {
-            //console.log("destroyed")
             this.destroy();
             this.text.destroy();
         }

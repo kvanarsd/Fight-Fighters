@@ -7,7 +7,10 @@ class Play extends Phaser.Scene {
         // game settings
         this.height = game.config.height;
         this.width = game.config.width;
+
+        // game over variables
         this.gameOver = false;
+        this.tweenStarted = false;
 
         // background
         const background = this.add.image(0,0,"bckg", 0).setOrigin(0,0).setScale(0.75);
@@ -69,10 +72,6 @@ class Play extends Phaser.Scene {
         this.dialogLines = null         // amount of lines in convo
         this.dialogWords = null         // amount of words to iterate through
 
-        // initialize dialog text objects (with no text)
-        //this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
-        //this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
-
         // random timer for starting convos
         this.convoTimer = this.time.addEvent({
             delay: 200,
@@ -80,9 +79,6 @@ class Play extends Phaser.Scene {
             callbackScope: this,
             loop: true
         });
-
-        //this.add.bitmapText(centerX, centerY, 'midnew', this.word).setOrigin(0.5)
-
 
         // attacks out of bounds
         this.RmiddleBound = new Phaser.Geom.Rectangle(0, 0, this.width/2 - borderPadding/2, this.height);
@@ -163,35 +159,29 @@ class Play extends Phaser.Scene {
             }
 
             // power up
-            //console.log(this.Rumble.powScore)
-            if(this.Rumble.powScore >= 100) {
+            if(this.Rumble.powScore >= 200) {
                 console.log("POWER UP")
-                this.Rumble.powerUp = true
                 this.Rumble.powScore = 0
+                this.Rumble.powerUp = true
             }
-            if(this.Dr.powScore >= 100) {
+            if(this.Dr.powScore >= 200) {
                 this.Dr.powerUp = true
                 this.Dr.powScore = 0
             }
         } else {
             // game over
-            let over = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'GAMEOVER', 52, 1).setOrigin(0.5,0.5);
-            let coin = this.add.bitmapText(this.width/2, this.height/2, 'midnew', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
-
-            var flash = this.tweens.add({
-                targets: over, coin,
-                duration: 500,
-                ease: 'Linear',
-                repeat: -1,
-                yoyo: true,
-                scaleX: 1,
-                scaleY: 1,
-                alpha: 0,
-            });
-
-            flash.play();
-
+            if(!this.tweenStarted) {
+                this.endTextstart();
+            }
             
+            if(Phaser.Input.Keyboard.JustDown(this.keys.VKey) || Phaser.Input.Keyboard.JustDown(this.keys.PKey)) {
+                this.scene.restart();
+            }
+
+            let backMenu = this.time.delayedCall(10000, () => {
+                this.scene.start("menuScene");
+            })
+
         }
     }
 
@@ -209,5 +199,24 @@ class Play extends Phaser.Scene {
         console.log(this.dialogWords)
         console.log(this.dialogWords[this.dialogWord])
 
+    }
+
+    endTextstart() {
+        let over = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'GAMEOVER', 52, 1).setOrigin(0.5,0.5);
+        let coin = this.add.bitmapText(this.width/2, this.height/2, 'midnew', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
+        let instruct = this.add.bitmapText(this.width/2, this.height/2 + borderPadding/4, 'midnew', 'Press V or P to play again', 16, 1).setOrigin(0.5,0.5);
+
+        var flash = this.tweens.add({
+            targets: [over, coin, instruct],
+            duration: 800,
+            ease: 'Linear',
+            repeat: -1,
+            yoyo: true,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            alpha: 1,
+        });
+
+        this.tweenStarted = true;
     }
 }

@@ -244,19 +244,19 @@ class RMDubJumpState extends State {
 class RMDuckState extends State {
     enter(scene, player) {
         player.setVelocityX(0)
-        //player.body.setSize(124,30).setOffset(0,108)
-        player.anims.play(`RM-duck-${player.direction}`)
+        player.body.setSize(player.width/2.5, player.height/2).setOffset(13,24)
+        player.anims.play(`RM-nAttack-${player.direction}`)
         
     }execute(scene, player) {
         if(player.hurt && !player.immune) {
-            //player.body.setSize(50,138).setOffset(74,0)
+            player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
             this.stateMachine.transition('hurt')
             return
         }
 
         player.once('animationcomplete', () => {
             scene.time.delayedCall(200, () => {
-                //player.body.setSize(50,138).setOffset(74,0)
+                player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
                 this.stateMachine.transition('idle')
             })
         })
@@ -265,6 +265,7 @@ class RMDuckState extends State {
 
 class RMHurtState extends State {
     enter(scene, player) {
+        scene.sound.play('hurt')
         player.setVelocityX(0)
         player.attacking = false;
         player.immune = true;
@@ -290,8 +291,6 @@ class RMfirAttackState extends State {
         scene.time.delayedCall(700, function () {
             player.second = false;
         }, [], scene)
-        console.log("first")
-        
     }
     execute(scene, player) {
         if(player.hurt && !player.immune) {
@@ -315,8 +314,6 @@ class RMSecAttackState extends State {
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
         })
-
-        console.log("second")
     }
     execute(scene, player) {
         if(player.hurt && !player.immune) {
@@ -331,7 +328,7 @@ class RMPowAttackState extends State {
         player.setVelocityX(0)
         player.attacking = true;
         player.attack *= 3;
-        player.anims.play(`RM-pAttack-${player.direction}`)
+        player.anims.play(`RM-nAttack-${player.direction}`)
         player.powerUp = false;
 
         player.once('animationcomplete', () => {

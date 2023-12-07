@@ -240,19 +240,19 @@ class DubJumpState extends State {
 class DuckState extends State {
     enter(scene, player) {
         player.setVelocityX(0)
-        player.body.setSize(124,30).setOffset(0,108)
-        player.anims.play(`DK-duck-${player.direction}`)
+        player.body.setSize(player.width/2.5, player.height/2).setOffset(13,24)
+        player.anims.play(`DK-nAttack-${player.direction}`)
         
     }execute(scene, player) {
         if(player.hurt && !player.immune) {
-            player.body.setSize(50,138).setOffset(74,0)
+            player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
             this.stateMachine.transition('hurt')
             return
         }
 
         player.once('animationcomplete', () => {
-            scene.time.delayedCall(200, () => {
-                player.body.setSize(50,138).setOffset(74,0)
+            scene.time.delayedCall(200, () =>  {
+                player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
                 this.stateMachine.transition('idle')
             })
         })
@@ -261,6 +261,7 @@ class DuckState extends State {
 
 class HurtState extends State {
     enter(scene, player) {
+        scene.sound.play('hurt')
         player.setVelocityX(0)
         player.attacking = false;
         player.immune = true;
@@ -306,7 +307,7 @@ class SecAttackState extends State {
         player.attacking = true;
         player.attack += 20;
         player.second = false;
-        player.anims.play(`DK-sAttack-${player.direction}`)
+        player.anims.play(`DK-nAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -325,7 +326,7 @@ class PowAttackState extends State {
         player.setVelocityX(0)
         player.attacking = true;
         player.attack *= 3;
-        player.anims.play(`DK-pAttack-${player.direction}`)
+        player.anims.play(`DK-nAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
