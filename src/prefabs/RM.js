@@ -23,6 +23,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         this.hurt = false;
         this.spoken = false             // one word per attack
         this.powScore = 0;
+        this.doubleJump = 0;
 
         // text
         this.damage = 0;
@@ -46,11 +47,10 @@ class RM extends Phaser.Physics.Arcade.Sprite {
 class RMIdleState extends State { 
     enter(scene, player) {
         player.anims.play(`RM-idle-${player.direction}`)
-        player.doubleJump = 0;
         player.hurt = false
         player.attack = 30;
         player.attacking = false;
-        player.setVelocity(0);
+        player.setVelocityX(0);
         player.spoken = false;
     } 
     execute(scene, player) {
@@ -68,8 +68,14 @@ class RMIdleState extends State {
         }
 
         let collide = player.body.touching
-        if(Phaser.Input.Keyboard.JustDown(WKey) && (scene.onFloor || collide.down)) {
-            player.doubleJump = 1;
+        let w = Phaser.Input.Keyboard.JustDown(WKey)
+        if(w && collide.down) {
+            player.doubleJump = 0;
+            this.stateMachine.transition('jump')
+            return
+        }
+
+        if(w && player.doubleJump < 2) {
             this.stateMachine.transition('jump')
             return
         }
@@ -104,8 +110,6 @@ class RMIdleState extends State {
 
 class RMRunState extends State { 
     enter(scene, player) {
-        //player.anims.play(`RM-run-${player.direction}`)
-        player.doubleJump = 0;
         player.hurt = false
     } 
     execute(scene, player) {
@@ -123,8 +127,14 @@ class RMRunState extends State {
         }
 
         let collide = player.body.touching
-        if(Phaser.Input.Keyboard.JustDown(WKey) && (scene.onFloor || collide.down)) {
-            player.doubleJump = 1;
+        let w = Phaser.Input.Keyboard.JustDown(WKey)
+        if(w && collide.down) {
+            player.doubleJump = 0;
+            this.stateMachine.transition('jump')
+            return
+        }
+
+        if(w && player.doubleJump < 2) {
             this.stateMachine.transition('jump')
             return
         }
@@ -134,7 +144,7 @@ class RMRunState extends State {
             return
         }
 
-        if(Phaser.Input.Keyboard.JustDown(CKey) && !player.second) {
+        if(Phaser.Input.Keyboard.JustDown(CKey)) {
             this.stateMachine.transition('fir')
             return
         }
@@ -165,12 +175,11 @@ class RMRunState extends State {
 
 class RMJumpState extends State {
     enter(scene, player) {
-        player.setVelocityX(0)
+        player.doubleJump += 1;
         player.anims.play(`RM-jump-${player.direction}`)
         scene.notJump = false
 
         player.setVelocityY(player.velY)
-        scene.onFloor = false;
         const {WKey} = scene.keys;
         WKey.reset();
     
@@ -195,10 +204,10 @@ class RMJumpState extends State {
         let collide = player.body.touching
 
         if(collide.down) {
+            player.doubleJump = 0;
             this.stateMachine.transition('idle')
         }
         if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(WKey) && !collide.down) {
-            player.doubleJump = 2;
             this.stateMachine.transition('dubJump')
             return
         } 
@@ -218,10 +227,18 @@ class RMJumpState extends State {
 class RMDubJumpState extends State {
     enter(scene, player) {
         player.setVelocityY(player.velY)
+        player.doubleJump += 1;
     }
     execute(scene, player) {
+        const AKey = scene.keys.AKey;
+        const DKey = scene.keys.DKey;
         const CKey = scene.keys.CKey;
         const VKey = scene.keys.VKey;
+
+        if(Phaser.Input.Keyboard.JustDown(AKey) || Phaser.Input.Keyboard.JustDown(DKey)) {
+            this.stateMachine.transition('run')
+            return
+        }
 
         if(Phaser.Input.Keyboard.JustDown(CKey)) {
             this.stateMachine.transition('fir')
@@ -279,7 +296,7 @@ class RMHurtState extends State {
             targets: player,
             duration: 100,
             ease: 'Linear',
-            repeat: 6,
+            repeat: 3,
             yoyo: false,
             alpha: 0.5,
             onComplete: () => {
@@ -291,7 +308,7 @@ class RMHurtState extends State {
             this.stateMachine.transition('idle')
         })
 
-        scene.time.delayedCall(800, () => {
+        scene.time.delayedCall(600, () => {
             player.immune = false;
         })
     }

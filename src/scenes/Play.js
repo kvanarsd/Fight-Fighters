@@ -120,6 +120,7 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        //console.log(this.Rumble.doubleJump + " " +this.Dr.doubleJump)
         if(!this.gameOver) {
             this.Rumble.state.step();
             this.Dr.state.step();

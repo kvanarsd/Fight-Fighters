@@ -23,6 +23,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.hurt = false;
         this.spoken = false             // one word per attack
         this.powScore = 0;
+        this.doubleJump = 0;
 
         // text
         this.damage = 0;
@@ -46,11 +47,10 @@ class DK extends Phaser.Physics.Arcade.Sprite {
 class IdleState extends State { 
     enter(scene, player) {
         player.anims.play(`DK-idle-${player.direction}`)
-        player.doubleJump = 0;
         player.hurt = false
         player.attack = 30;
         player.attacking = false;
-        player.setVelocity(0);
+        player.setVelocityX(0);
         player.spoken = false;
     } 
     execute(scene, player) {
@@ -65,9 +65,15 @@ class IdleState extends State {
         }
 
         let collide = player.body.touching
-        if(Phaser.Input.Keyboard.JustDown(up) && (scene.onFloor || collide.down)) {
-            player.doubleJump = 1;
+        let u = Phaser.Input.Keyboard.JustDown(up)
+        if(u && collide.down) {
+            player.doubleJump = 0;
             this.stateMachine.transition('jump')
+            return
+        }
+
+        if(player.doubleJump < 2 && u) {
+            this.stateMachine.transition('dubJump')
             return
         }
 
@@ -101,8 +107,6 @@ class IdleState extends State {
 
 class RunState extends State { 
     enter(scene, player) {
-        //player.anims.play(`DK-run-${player.direction}`)
-        player.doubleJump = 0;
         player.hurt = false
     } 
     execute(scene, player) {
@@ -117,9 +121,15 @@ class RunState extends State {
         }
 
         let collide = player.body.touching
-        if(Phaser.Input.Keyboard.JustDown(up) && (scene.onFloor || collide.down)) {
-            player.doubleJump = 1;
+        let u = Phaser.Input.Keyboard.JustDown(up)
+        if(u && collide.down) {
+            player.doubleJump = 0;
             this.stateMachine.transition('jump')
+            return
+        }
+
+        if(player.doubleJump < 2 && u) {
+            this.stateMachine.transition('dubJump')
             return
         }
 
@@ -159,12 +169,11 @@ class RunState extends State {
 
 class JumpState extends State {
     enter(scene, player) {
-        player.setVelocityX(0)
+        player.doubleJump += 1;
         player.anims.play(`DK-jump-${player.direction}`)
         scene.notJump = false
 
         player.setVelocityY(player.velY)
-        scene.onFloor = false;
         const {up} = scene.keys;
         up.reset();
     
@@ -187,12 +196,12 @@ class JumpState extends State {
         let collide = player.body.touching
 
         if(collide.down) {
+            player.doubleJump = 0;
             this.stateMachine.transition('idle')
             return
         }
 
         if(player.doubleJump < 2 && Phaser.Input.Keyboard.JustDown(up) && !collide.down) {
-            player.doubleJump = 2;
             this.stateMachine.transition('dubJump')
             return
         } 
@@ -214,10 +223,17 @@ class JumpState extends State {
 class DubJumpState extends State {
     enter(scene, player) {
         player.setVelocityY(player.velY)
+        player.doubleJump += 1;
     }
     execute(scene, player) {
+        const { right, up, left} = scene.keys
         const OKey = scene.keys.OKey;
         const PKey = scene.keys.PKey;
+
+        if(Phaser.Input.Keyboard.JustDown(right) || Phaser.Input.Keyboard.JustDown(left)) {
+            this.stateMachine.transition('run')
+            return
+        }
 
         if(Phaser.Input.Keyboard.JustDown(OKey)) {
             this.stateMachine.transition('fir')
@@ -236,6 +252,7 @@ class DubJumpState extends State {
 
         let collide = player.body.touching
         if(collide.down) {
+            player.doubleJump = 0;
             this.stateMachine.transition('idle')
         }
     }
@@ -275,7 +292,7 @@ class HurtState extends State {
             targets: player,
             duration: 100,
             ease: 'Linear',
-            repeat: 6,
+            repeat: 3,
             yoyo: false,
             alpha: 0.5,
             onComplete: () => {
@@ -287,7 +304,7 @@ class HurtState extends State {
             this.stateMachine.transition('idle')
         })
 
-        scene.time.delayedCall(800, () => {
+        scene.time.delayedCall(600, () => {
             player.immune = false;
         })
     }
