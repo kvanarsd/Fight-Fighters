@@ -279,7 +279,7 @@ class RMHurtState extends State {
             this.stateMachine.transition('idle')
         })
 
-        scene.time.delayedCall(200, () => {
+        scene.time.delayedCall(1000, () => {
             player.immune = false;
         })
     }

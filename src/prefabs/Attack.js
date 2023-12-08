@@ -10,26 +10,27 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         // colliding with enemy
         scene.physics.add.collider(enemy, this, () => {
             enemy.hurt = true;
+            if(!enemy.imune){
+                let attackPoints = player.attack;
+                if(word != "") {
+                    // multiply attack points by 2 if
+                    // player is speaking while attacking
+                    attackPoints *= 2;
+                }
+                
+                enemy.health -= attackPoints;
+                player.powScore += attackPoints; // loading power up
+                player.damage += attackPoints * 10;
+                player.damageDealt.setText(scene.formatValue(player.damage))
 
-            let attackPoints = player.attack;
-            if(word != "") {
-                // multiply attack points by 2 if
-                // player is speaking while attacking
-                attackPoints *= 2;
-            }
-            
-            enemy.health -= attackPoints;
-            player.powScore += attackPoints; // loading power up
-            player.damage += attackPoints * 10;
-            player.damageDealt.setText(scene.formatValue(player.damage))
-
-            // if enemy is dead Game over and set everything to 0
-            if(enemy.health <= 0) {
-                enemy.health = 0;
-                scene.gameOver = true;
-                enemy.healthBar.setScale(0, 1)
-            } else { // make healthbar smaller
-                enemy.healthBar.setScale(enemy.health/1000, 1)
+                // if enemy is dead Game over and set everything to 0
+                if(enemy.health <= 0) {
+                    enemy.health = 0;
+                    scene.gameOver = true;
+                    enemy.healthBar.setScale(0, 1)
+                } else { // make healthbar smaller
+                    enemy.healthBar.setScale(enemy.health/1000, 1)
+                }
             }
 
             // destroy assets on collision
