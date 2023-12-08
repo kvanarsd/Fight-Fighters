@@ -235,4 +235,8 @@ class Play extends Phaser.Scene {
             alpha: 1,
         });
     }
+
+    formatValue(value) {
+        return value.toString().padStart(14, '0');
+    }
 }

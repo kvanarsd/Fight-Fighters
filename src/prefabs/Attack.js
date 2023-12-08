@@ -20,6 +20,8 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
             
             enemy.health -= attackPoints;
             player.powScore += attackPoints; // loading power up
+            player.damage += attackPoints * 10;
+            player.damageDealt.setText(scene.formatValue(player.damage))
 
             // if enemy is dead Game over and set everything to 0
             if(enemy.health <= 0) {

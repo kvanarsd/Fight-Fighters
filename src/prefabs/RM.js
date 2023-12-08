@@ -24,6 +24,10 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         this.spoken = false             // one word per attack
         this.powScore = 0;
 
+        // text
+        this.damage = 0;
+        this.damageDealt = scene.add.bitmapText(borderPadding * 2.65, borderPadding*0.5, 'midnew', scene.formatValue(this.damage), 18, 1).setOrigin(1,0.5);
+
         //state machine
         this.state = new StateMachine('idle', {
             idle: new RMIdleState(),
