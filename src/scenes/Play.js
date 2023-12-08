@@ -141,13 +141,13 @@ class Play extends Phaser.Scene {
                 this.lightingAnim()
                 console.log("speak")
                 this.Rumble.spoken = true;
-                const texture = "RM" + this.Rumble.state.state
+                const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Rumble.attacking && !this.Rumble.spoken) {
                 this.lightingAnim()
                 this.Rumble.spoken = true;
-                const texture = "RM" + this.Rumble.state.state
+                const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
             }
 
@@ -155,13 +155,13 @@ class Play extends Phaser.Scene {
                 this.lightingAnim()
                 console.log("speak")
                 this.Dr.spoken = true;
-                const texture = "DR" + this.Dr.state.state
+                const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
                 const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Dr.attacking && !this.Dr.spoken) {
                 this.lightingAnim()
                 this.Dr.spoken = true;
-                const texture = "DR" + this.Dr.state.state
+                const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
                 const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
             }
 

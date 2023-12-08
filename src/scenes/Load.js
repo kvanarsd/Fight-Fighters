@@ -19,6 +19,7 @@ class Load extends Phaser.Scene {
         })
 
         this.load.atlas('attacks', 'img/attackAnims.png', 'json/attackAnims.json')
+        this.load.atlas('attacksF', 'img/attackAnimsFlip.png', 'json/attackAnimsFlip.json')
 
         // load background
         this.load.image("menu1", "img/Menu.png");
@@ -40,7 +41,7 @@ class Load extends Phaser.Scene {
     create() {
         // Rumble attack anims
         this.anims.create({
-            key: "RMfir",
+            key: "RMfir-right",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMfir',
                 start: 1,
@@ -51,7 +52,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "RMsec",
+            key: "RMsec-right",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMsec',
                 start: 1,
@@ -62,7 +63,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "RMpow",
+            key: "RMpow-right",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'RMpow',
                 start: 1,
@@ -72,9 +73,43 @@ class Load extends Phaser.Scene {
             repeat: -1
         })
 
+        // left
+        this.anims.create({
+            key: "RMpow-left",
+            frames: this.anims.generateFrameNames('attacksF', {
+                prefix: 'RMpow',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 8,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: "RMfir-left",
+            frames: this.anims.generateFrameNames('attacksF', {
+                prefix: 'RMfir',
+                start: 1,
+                end: 3,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "RMsec-left",
+            frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'RMsec',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: -1
+        })
+
         // Dr attack anims
         this.anims.create({
-            key: "DRfir",
+            key: "DRfir-left",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'DRfir',
                 start: 1,
@@ -85,7 +120,7 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "DRsec",
+            key: "DRsec-left",
             frames: this.anims.generateFrameNames('attacks', {
                 prefix: 'DRsec',
                 start: 1,
@@ -96,8 +131,42 @@ class Load extends Phaser.Scene {
         })
 
         this.anims.create({
-            key: "DRpow",
+            key: "DRpow-left",
             frames: this.anims.generateFrameNames('attacks', {
+                prefix: 'DRpow',
+                start: 1,
+                end: 7,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        // right
+        this.anims.create({
+            key: "DRfir-right",
+            frames: this.anims.generateFrameNames('attacksF', {
+                prefix: 'DRfir',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "DRsec-right",
+            frames: this.anims.generateFrameNames('attacksF', {
+                prefix: 'DRsec',
+                start: 1,
+                end: 4,
+            }),
+            frameRate: 5,
+            repeat: 0
+        })
+
+        this.anims.create({
+            key: "DRpow-right",
+            frames: this.anims.generateFrameNames('attacksF', {
                 prefix: 'DRpow',
                 start: 1,
                 end: 7,
