@@ -8,6 +8,20 @@ class Play extends Phaser.Scene {
         this.height = game.config.height;
         this.width = game.config.width;
 
+        // prior scene snap shot
+        if (this.textures.exists('titlesnapshot')) {
+            let titleSnap = this.add.image(this.width/2, this.height/2, 'titlesnapshot').setOrigin(0.5);
+            titleSnap.setDepth(8)
+            let fade = this.tweens.add({
+                targets: titleSnap,
+                duration: 500,
+                alpha: { from: 1, to: 0 },
+                repeat: 0
+            });
+        } else {
+            console.log('texture error');
+        }
+
         // game over variables
         this.gameOver = false;
         this.tweenStarted = false;

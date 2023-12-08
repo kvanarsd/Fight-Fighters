@@ -7,29 +7,12 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        let menuConfig = {
-            fontFamily: "Garamond Bold",
-            fontSize: "32px",
-            backgroundColor: "#fff",
-            color: "#cc2570",
-            align: "right",
-            padding: {
-                tom: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-
-        let Config = {
-            fontFamily: "Garamond Bold",
-            fontSize: "28px",
-            backgroundColor: "#c8d3e6",
-            color: "#535e70",
-            align: "right",
-            padding: {
-                tom: 5,
-                bottom: 5,
-            }
+        game.settings = {
+            health: 1000,
+            points: 200,
+            speed: 300,
+            gravity: 700,
+            jump: -500
         }
 
         // background images
@@ -142,14 +125,16 @@ class Menu extends Phaser.Scene {
             }
 
             if(this.number == 3) {
-                console.log(4)
-                game.settings = {
-                    health: 1000,
-                    points: 200,
-                    speed: 300,
-                    gravity: 700,
-                    jump: -500
-                }
+                // snap shot code from Nathan Altice Paddle Parkour
+                let textureManager = this.textures;
+                this.game.renderer.snapshot((snapshotImage) => {
+                    if(textureManager.exists('titlesnapshot')) {
+                        textureManager.remove('titlesnapshot');
+                    }
+                    
+                    textureManager.addImage('titlesnapshot', snapshotImage);
+                });
+
                 this.scene.start("playScene");
             }
         }
