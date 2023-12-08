@@ -36,6 +36,10 @@ class Load extends Phaser.Scene {
         // load sounds
         this.load.audio("hurt", "sounds/hurt.wav");
 
+        // load power up
+        this.load.image("Pup", "img/PowerUpP.png");
+        this.load.image("Vup", "img/PowerUpV.png");
+
     }
 
     create() {

@@ -64,6 +64,8 @@ class Play extends Phaser.Scene {
         this.barRight = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "bar").setOrigin(0,0.5);
         this.Rumble.healthBar = this.add.image(borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(1,0.5);
         this.Dr.healthBar = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(0,0.5);
+        
+        // player names
         var RMname = this.add.bitmapText(borderPadding * 1.75, borderPadding*1.05, 'midnew', "Rumble", 24, 1).setOrigin(1,0.5);
         RMname.letterSpacing = 5
         var DKname = this.add.bitmapText(this.width - borderPadding / 1.25, borderPadding*1.05, 'midnew', "Dr. Karate", 24, 1).setOrigin(1,0.5);
@@ -106,6 +108,14 @@ class Play extends Phaser.Scene {
  
         this.Rumble.body.setBoundsRectangle(this.RmiddleBound)
         this.Dr.body.setBoundsRectangle(this.DmiddleBound)
+
+        // power up indicator
+        this.powUpV = this.add.image(borderPadding/1.2, this.height - borderPadding/1.2, "Vup").setOrigin(0.5,0.5).setScale(2);
+        this.powUpP = this.add.image(this.width - borderPadding/1.2, this.height - borderPadding/1.2, "Pup").setOrigin(0.5,0.5).setScale(2);
+        this.powUpP.setDepth(9)
+        this.powUpV.setDepth(9)
+        this.powUpP.setVisible(false)
+        this.powUpV.setVisible(false)
 
     }
 
@@ -182,13 +192,20 @@ class Play extends Phaser.Scene {
 
             // power up
             if(this.Rumble.powScore >= 200) {
-                console.log("POWER UP")
+                this.powUpV.setVisible(true)
+                this.powAnim(this.powUpV)
                 this.Rumble.powScore = 0
                 this.Rumble.powerUp = true
+            } else if(this.Rumble.powerUp == false) {
+                this.powUpV.setVisible(false)
             }
             if(this.Dr.powScore >= 200) {
+                this.powUpP.setVisible(true)
+                this.powAnim(this.powUpP)
                 this.Dr.powerUp = true
                 this.Dr.powScore = 0
+            } else if(this.Dr.powerUp == false) {
+                this.powUpP.setVisible(false)
             }
         } else {
             // game over
@@ -244,13 +261,24 @@ class Play extends Phaser.Scene {
 
     lightingAnim() {
         this.light.setAlpha(0.5)
-        var diming = this.tweens.add({
+        this.tweens.add({
             targets: this.light,
             duration: 600,
             ease: 'Linear',
             repeat: 0,
             yoyo: true,
             alpha: 1,
+        });
+    }
+
+    powAnim(x) {
+        this.tweens.add({
+            targets: x,
+            duration: 600,
+            ease: 'Linear',
+            repeat: -1,
+            yoyo: true,
+            scale: { from: 2, to: 2.1 },
         });
     }
 

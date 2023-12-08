@@ -342,6 +342,7 @@ class PowAttackState extends State {
         player.setVelocityX(0)
         player.attacking = true;
         player.attack *= 3;
+        player.powerUp = false;
         player.anims.play(`DK-nAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
