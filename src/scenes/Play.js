@@ -90,7 +90,7 @@ class Play extends Phaser.Scene {
         this.dialogWord = 0             // current word
         this.dialogText = null			// the actual dialog text
         this.dialogTalking = false;
-        this.dialogConvos = this.dialog.length -1
+        this.dialogConvos = this.dialog.length - 1
         this.dialogLines = null         // amount of lines in convo
         this.dialogWords = null         // amount of words to iterate through
 
@@ -231,13 +231,13 @@ class Play extends Phaser.Scene {
 
         this.dialogConvo = Phaser.Math.Between(0, this.dialogConvos);
         this.dialogTalking = true;
-        this.dialogLines = this.dialog[this.dialogConvo].length
+        this.dialogLines = this.dialog[this.dialogConvo].length - 1
         this.dialogLine = 0;
         this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
         this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
         console.log(this.dialogWords)
-        console.log(this.dialogWords[this.dialogWord])
+        console.log(this.dialog[this.dialogConvos][this.dialogLine]['dialog'])
 
     }
 

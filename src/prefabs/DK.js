@@ -24,6 +24,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.spoken = false             // one word per attack
         this.powScore = 0;
         this.doubleJump = 0;
+        this.name = 'Dr'                // for attack sound
 
         // text
         this.damage = 0;

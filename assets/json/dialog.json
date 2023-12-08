@@ -7,46 +7,74 @@
 		},
 		{	
 			"speaker" : "DK",
-			"dialog" : "But do what he might he could not save his men, for they perished through their own sheer folly in eating the cattle of the Sun-god Hyperion.",
+			"dialog" : "And I'll do it again!",
 			"newSpeaker" : "true"
 		},
 		{	
 			"speaker" : "RM",
-			"dialog" : "So the gods prevented them from ever reaching home."
+			"dialog" : "My father!!",
+			"newSpeaker" : "true"
 		},
 		{	
+			"speaker" : "DK",
+			"dialog" : "WUA HA HA",
+			"newSpeaker" : "true"
+		}
+	],
+	[
+		{	
+			"speaker" : "DK",
+			"dialog" : "You're a brute",
+			"newSpeaker" : "true"
+		},
+		{
 			"speaker" : "RM",
-			"dialog" : "Tell me, too, about all these things, O daughter of Jove, from whatsoever source you may know them."
+			"dialog" : "I'm winner",
+			"newSpeaker" : "true"
+		},
+		{	
+			"speaker" : "DK",
+			"dialog" : "We'll see!",
+			"newSpeaker" : "true"
 		}
 	],
 	[
 		{
-			"speaker" : "DK",
-			"dialog" : "See now",
+			"speaker" : "RM",
+			"dialog" : "You haven't seen real power",
 			"newSpeaker" : "true"
 		},
+		{	
+			"speaker" : "DK",
+			"dialog" : "I won't today either!",
+			"newSpeaker" : "true"
+		}
+	],
+	[
 		{
 			"speaker" : "RM",
-			"dialog" : "Look at Aegisthus; ",
+			"dialog" : "A winner never runs away from a fight!",
 			"newSpeaker" : "true"
-		},
+		}
+	],
+	[
 		{	
-			"speaker" : "minerva",
-			"dialog" : "Father, son of Saturn, King of kings, it served Aegisthus right, and so it would any one else who does as he did; but Aegisthus is neither here nor there.",
+			"speaker" : "DK",
+			"dialog" : "I'll conquer all",
 			"newSpeaker" : "true"
-		},
+		}
+	],
+	[
 		{	
-			"speaker" : "minerva",
-			"dialog" : "It is for Ulysses that my heart bleeds, when I think of his sufferings in that lonely sea-girt island, far away, poor man, from all his friends."
-		},
-		{	
-			"speaker" : "jove",
-			"dialog" : "My child, what are you talking about? How can I forget Ulysses than whom there is no more capable man on earth, nor more liberal in his offerings to the immortal gods that live in heaven?",
+			"speaker" : "DK",
+			"dialog" : "I'm evil!",
 			"newSpeaker" : "true"
-		},
+		}
+	],
+	[
 		{	
-			"speaker" : "minerva",
-			"dialog" : "If, then, the gods now mean that Ulysses should get home, we should first send Mercury to the Ogygian island to tell Calypso that we have made up our minds and that he is to return.",
+			"speaker" : "RM",
+			"dialog" : "I'll defeat the greatest Fight Fighters",
 			"newSpeaker" : "true"
 		}
 	]
