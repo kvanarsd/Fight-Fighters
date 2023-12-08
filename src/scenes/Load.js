@@ -21,6 +21,8 @@ class Load extends Phaser.Scene {
         this.load.atlas('attacks', 'img/attackAnims.png', 'json/attackAnims.json')
 
         // load background
+        this.load.image("menu1", "img/Menu.png");
+        this.load.image("menu2", "img/Instructions.png");
         this.load.image("bckg", "img/Background.png");
         this.load.image("outer", "img/Outline.png");
         this.load.image("rocks", "img/rocks.png");
