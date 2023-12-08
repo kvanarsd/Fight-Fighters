@@ -275,11 +275,23 @@ class RMHurtState extends State {
         player.immune = true;
         player.anims.play(`RM-hurt-${player.direction}`)
 
+        var immune = scene.tweens.add({
+            targets: player,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 6,
+            yoyo: false,
+            alpha: 0.5,
+            onComplete: () => {
+                player.alpha = 1
+            }
+        });
+
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
         })
 
-        scene.time.delayedCall(1000, () => {
+        scene.time.delayedCall(800, () => {
             player.immune = false;
         })
     }
@@ -292,7 +304,7 @@ class RMfirAttackState extends State {
         player.anims.play(`RM-nAttack-${player.direction}`)
 
         player.second = true;
-        scene.time.delayedCall(700, function () {
+        scene.time.delayedCall(1300, function () {
             player.second = false;
         }, [], scene)
     }

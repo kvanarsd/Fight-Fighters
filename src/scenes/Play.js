@@ -64,6 +64,10 @@ class Play extends Phaser.Scene {
         this.barRight = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "bar").setOrigin(0,0.5);
         this.Rumble.healthBar = this.add.image(borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(1,0.5);
         this.Dr.healthBar = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(0,0.5);
+        var RMname = this.add.bitmapText(borderPadding * 1.75, borderPadding*1.05, 'midnew', "Rumble", 24, 1).setOrigin(1,0.5);
+        RMname.letterSpacing = 5
+        var DKname = this.add.bitmapText(this.width - borderPadding / 1.25, borderPadding*1.05, 'midnew', "Dr. Karate", 24, 1).setOrigin(1,0.5);
+        DKname.letterSpacing = 5
 
         // ground collisiond
         const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 1).setOrigin(0,0)
@@ -242,7 +246,7 @@ class Play extends Phaser.Scene {
         this.light.setAlpha(0.5)
         var diming = this.tweens.add({
             targets: this.light,
-            duration: 800,
+            duration: 600,
             ease: 'Linear',
             repeat: 0,
             yoyo: true,

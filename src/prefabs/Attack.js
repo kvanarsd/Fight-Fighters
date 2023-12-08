@@ -8,9 +8,9 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0.2)
 
         // colliding with enemy
-        scene.physics.add.collider(enemy, this, () => {
-            enemy.hurt = true;
-            if(!enemy.imune){
+        this.collider = scene.physics.add.collider(enemy, this, () => {
+            if(!enemy.immune){
+                enemy.hurt = true;
                 let attackPoints = player.attack;
                 if(word != "") {
                     // multiply attack points by 2 if
@@ -86,7 +86,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         
     }
 
-    update() {
+    update(enemy) {
         // destroy if off screen
         if(this.x > scene.width + borderPadding || this.x < -borderPadding) {
             this.destroy();
