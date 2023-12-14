@@ -12,6 +12,7 @@ class Load extends Phaser.Scene {
 
         // load fonts
         this.load.bitmapFont('midnew', 'fonts/Backto1982.png', 'fonts/Backto1982.xml')
+        this.load.bitmapFont('nums', 'fonts/Backto1982OG.png', 'fonts/Backto1982OG.xml')
         this.load.bitmapFont('bub', 'fonts/Librium.png', 'fonts/Librium.xml')
 
         // load sprites

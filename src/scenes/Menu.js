@@ -25,24 +25,25 @@ class Menu extends Phaser.Scene {
         light.setDepth(11)
 
         // menu one text
-        this.name = this.add.bitmapText(borderPadding/1.5, borderPadding / 1.1, 'midnew', 'FIGHT \nFIGHTERS', 52, 0).setOrigin(0,0);
-        this.start = this.add.bitmapText(borderPadding/1.5, borderPadding*2, 'midnew', 'START', 42, 0).setOrigin(0,0);
-        this.button = this.add.bitmapText(borderPadding/1.5, borderPadding*2.5, 'bub', 'Press V or P \nto start!', 22, 0).setOrigin(0,0);
-        this.cents = this.add.bitmapText(borderPadding/1.5, game.config.height- borderPadding / 1.1, 'midnew', '25 cents', 48, 0).setOrigin(0,0);
+        this.name = this.add.bitmapText(borderPadding/1.5, borderPadding / 1.8, 'midnew', 'FIGHT \nFIGHTERS', 52, 0).setOrigin(0,0)
+        this.name.lineSpacing = 20
+        this.start = this.add.bitmapText(borderPadding/1.5, borderPadding*2, 'bub', 'START', 42, 0).setOrigin(0,0);
+        this.button = this.add.bitmapText(borderPadding/1.5, borderPadding*2.4, 'bub', 'Press V or P \nto start!', 22, 0).setOrigin(0,0);
+        this.cents = this.add.bitmapText(borderPadding/1.5, game.config.height- borderPadding / 1.1, 'midnew', '25 cents', 42, 0).setOrigin(0,0);
 
         // menu one text
         this.creds = this.add.bitmapText(game.config.width/2, - borderPadding*2, 'midnew', 'CREDITS', 42, 1).setOrigin(0.5,0.5);
-        this.gameBy = this.add.bitmapText(game.config.width/2, - borderPadding, 'bub', 'Game by Katrina VanArsdale\n Art by Katrina VanArsdale\n Music by\n Sound by\n', 32, 1).setOrigin(0.5,0.5);
+        this.gameBy = this.add.bitmapText(game.config.width/2, - borderPadding, 'bub', 'Game by Katrina VanArsdale\n Art by Katrina VanArsdale\n Music by Kevin Macleod\n Inspired by \'Fight Fighters\'\nfrom Gravity Falls\n', 32, 1).setOrigin(0.5,0.5);
         this.gameBy.lineSpacing = 20
 
         // menu three text player 1
         this.instructions = this.add.bitmapText(game.config.width/2, - borderPadding*2, 'midnew', 'INSTRUCTIONS', 42, 1).setOrigin(0.5,0.5);
         this.player1 = this.add.bitmapText(borderPadding/1.5, - borderPadding*1.5, 'bub', 'PLAYER 1', 32, 1).setOrigin(0,0.5);
-        this.buttons1 = this.add.bitmapText(borderPadding/1.5, - borderPadding/1.2, 'bub', 'WASD for movement\nC for NORMAL ATTACK\nC x2 for SECOND \nATTACK\nV for POWER UP', 20, 0).setOrigin(0,0.5);
+        this.buttons1 = this.add.bitmapText(borderPadding/1.5, - borderPadding/1.2, 'bub', 'WASD for movement\nC for FIRST attack\nC x2 for SECOND \nattack\nV for POWER UP', 20, 0).setOrigin(0,0.5);
         this.buttons1.lineSpacing = 20
         // player 2
         this.player2 = this.add.bitmapText(game.config.width - borderPadding /1.5, - borderPadding*1.5, 'bub', 'PLAYER 2', 32, 1).setOrigin(1,0.5);
-        this.buttons2 = this.add.bitmapText(game.config.width - borderPadding/1.5, - borderPadding/1.2, 'bub', 'ARROWS for movement\nO for NORMAL ATTACK\nO x2 for SECOND \nATTACK\nP for POWER UP', 20, 2).setOrigin(1,0.5);
+        this.buttons2 = this.add.bitmapText(game.config.width - borderPadding/1.5, - borderPadding/1.2, 'bub', 'ARROWS for movement\nO for FIRST attack\nO x2 for SECOND \nattack\nP for POWER UP', 20, 2).setOrigin(1,0.5);
         this.buttons2.lineSpacing = 20
 
 
@@ -52,7 +53,7 @@ class Menu extends Phaser.Scene {
 
         // animate start screen text
         var menu1Text = this.tweens.add({
-            targets: [this.start, this.cents, this.button],
+            targets: [this.start, this.cents],
             duration: 400,
             ease: 'Linear',
             repeat: -1,

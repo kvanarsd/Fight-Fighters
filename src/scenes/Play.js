@@ -23,24 +23,24 @@ class Play extends Phaser.Scene {
         }
 
         // fight!
-        let fight = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'FIGHT!', 74, 1).setOrigin(0.5,0.5).setAlpha(0);
+        let fight = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'FIGHT!', 74, 1).setOrigin(0.5,0.5).setAlpha(1);
         fight.setDepth(12);
-        this.tweens.add({
-            targets: fight,
-            duration: 200,
-            ease: 'Linear',
-            repeat: 0,
-            yoyo: false,
-            delay: 400,
-            alpha: { from: 0, to: 1 },
-        });
+        // this.tweens.add({
+        //     targets: fight,
+        //     duration: 200,
+        //     ease: 'Linear',
+        //     repeat: 0,
+        //     yoyo: false,
+        //     delay: 400,
+        //     alpha: { from: 0, to: 1 },
+        // });
         this.tweens.add({
             targets: fight,
             duration: 500,
             ease: 'Linear',
             repeat: 0,
             yoyo: false,
-            delay: 1300,
+            delay: 400,
             alpha: { from: 1, to: 0},
         });
 
@@ -88,10 +88,10 @@ class Play extends Phaser.Scene {
         this.Dr.healthBar = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(0,0.5);
         
         // player names
-        var RMname = this.add.bitmapText(borderPadding * 1.75, borderPadding*1.05, 'bub', "RUMBLE", 18, 1).setOrigin(1,0.5);
-        RMname.letterSpacing = 5
-        var DKname = this.add.bitmapText(this.width - borderPadding / 1.25, borderPadding*1.05, 'bub', "DR. KARATE", 18, 1).setOrigin(1,0.5);
-        DKname.letterSpacing = 5
+        var RMname = this.add.bitmapText(borderPadding * 1.88, borderPadding*1.05, 'bub', "RUMBLE", 18, 1).setOrigin(1,0.5);
+        RMname.letterSpacing = 25
+        var DKname = this.add.bitmapText(this.width - borderPadding / 1.20, borderPadding*1.05, 'bub', "DR. KARATE", 18, 1).setOrigin(1,0.5);
+        DKname.letterSpacing = 25
 
         // ground collisiond
         const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 0).setOrigin(0,0)
@@ -142,7 +142,6 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        //console.log(this.Rumble.doubleJump + " " +this.Dr.doubleJump)
         if(!this.gameOver) {
             this.Rumble.state.step();
             this.Dr.state.step();
@@ -314,11 +313,11 @@ class Play extends Phaser.Scene {
     }
 
     formatValue(value) {
-        return value.toString().padStart(14, '0');
+        return value.toString().padStart(13, '0');
     }
 
     tips() {
-        let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'bub', 'Attack while speaking to deal more damage!', 14, 1).setOrigin(0.5,0.5);
+        let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'bub', 'Attack while speaking to deal more damage!', 20, 1).setOrigin(0.5,0.5);
         tip.setDepth(12);
         this.tweens.add({
             targets: tip,

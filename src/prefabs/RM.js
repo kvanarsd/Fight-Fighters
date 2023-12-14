@@ -29,6 +29,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         // text
         this.damage = 0;
         this.damageDealt = scene.add.bitmapText(borderPadding * 2.65, borderPadding*0.5, 'midnew', scene.formatValue(this.damage), 18, 1).setOrigin(1,0.5);
+        this.damageDealt.letterSpacing = 4
 
         //state machine
         this.state = new StateMachine('idle', {
@@ -178,7 +179,6 @@ class RMJumpState extends State {
     enter(scene, player) {
         player.doubleJump += 1;
         player.anims.play(`RM-jump-${player.direction}`)
-        scene.notJump = false
 
         player.setVelocityY(player.velY)
         const {WKey} = scene.keys;

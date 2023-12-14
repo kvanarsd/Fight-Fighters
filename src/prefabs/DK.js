@@ -29,7 +29,8 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         // text
         this.damage = 0;
         this.damageDealt = scene.add.bitmapText(scene.width - borderPadding * 2.65, borderPadding*0.5, 'midnew', scene.formatValue(this.damage), 18, 1).setOrigin(0,0.5);
-
+        this.damageDealt.letterSpacing = 4
+        
         //state machine
         this.state = new StateMachine('idle', {
             idle: new IdleState(),
@@ -172,7 +173,6 @@ class JumpState extends State {
     enter(scene, player) {
         player.doubleJump += 1;
         player.anims.play(`DK-jump-${player.direction}`)
-        scene.notJump = false
 
         player.setVelocityY(player.velY)
         const {up} = scene.keys;
