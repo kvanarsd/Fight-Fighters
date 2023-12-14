@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
         // prior scene snap shot
         if (this.textures.exists('titlesnapshot')) {
             let titleSnap = this.add.image(this.width/2, this.height/2, 'titlesnapshot').setOrigin(0.5);
-            titleSnap.setDepth(8)
+            titleSnap.setDepth(10)
             let fade = this.tweens.add({
                 targets: titleSnap,
                 duration: 500,
