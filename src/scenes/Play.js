@@ -22,6 +22,28 @@ class Play extends Phaser.Scene {
             console.log('texture error');
         }
 
+        // fight!
+        let fight = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'FIGHT!', 74, 1).setOrigin(0.5,0.5).setAlpha(0);
+        fight.setDepth(12);
+        this.tweens.add({
+            targets: fight,
+            duration: 200,
+            ease: 'Linear',
+            repeat: 0,
+            yoyo: false,
+            delay: 400,
+            alpha: { from: 0, to: 1 },
+        });
+        this.tweens.add({
+            targets: fight,
+            duration: 500,
+            ease: 'Linear',
+            repeat: 0,
+            yoyo: false,
+            delay: 1300,
+            alpha: { from: 1, to: 0},
+        });
+
         // game over variables
         this.gameOver = false;
         this.tweenStarted = false;
@@ -90,7 +112,7 @@ class Play extends Phaser.Scene {
         this.dialogWord = 0             // current word
         this.dialogText = null			// the actual dialog text
         this.dialogTalking = false;
-        this.dialogConvos = this.dialog.length -1
+        this.dialogConvos = this.dialog.length - 1
         this.dialogLines = null         // amount of lines in convo
         this.dialogWords = null         // amount of words to iterate through
 
@@ -120,6 +142,7 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        //console.log(this.Rumble.doubleJump + " " +this.Dr.doubleJump)
         if(!this.gameOver) {
             this.Rumble.state.step();
             this.Dr.state.step();
@@ -160,7 +183,6 @@ class Play extends Phaser.Scene {
             // iterate by attack
             if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
                 this.lightingAnim()
-                console.log("speak")
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y - 40, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
@@ -174,7 +196,6 @@ class Play extends Phaser.Scene {
 
             if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
                 this.lightingAnim()
-                console.log("speak")
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
                 const talk = new Attack(this, this.Dr.x, this.Dr.y - 40, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
@@ -232,18 +253,19 @@ class Play extends Phaser.Scene {
     }
 
     convoStarter() {
+        this.tips()
         this.convoTimer.delay = Phaser.Math.Between(200, 1000);
         this.convoTimer.paused = true;
 
         this.dialogConvo = Phaser.Math.Between(0, this.dialogConvos);
         this.dialogTalking = true;
-        this.dialogLines = this.dialog[this.dialogConvo].length
+        this.dialogLines = this.dialog[this.dialogConvo].length - 1
         this.dialogLine = 0;
         this.dialogWord = 0;
         this.dialogWords = this.dialog[this.dialogConvo][this.dialogLine]['dialog'].split(" ");
         this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
         console.log(this.dialogWords)
-        console.log(this.dialogWords[this.dialogWord])
+        console.log(this.dialog[this.dialogConvos][this.dialogLine]['dialog'])
 
     }
 
@@ -291,5 +313,18 @@ class Play extends Phaser.Scene {
 
     formatValue(value) {
         return value.toString().padStart(14, '0');
+    }
+
+    tips() {
+        let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'midnew', 'Attack while speaking to deal more damage!', 14, 1).setOrigin(0.5,0.5);
+        tip.setDepth(12);
+        this.tweens.add({
+            targets: tip,
+            duration: 1800,
+            ease: 'Linear',
+            repeat: 0,
+            yoyo: true,
+            alpha: { from: 0, to: 1 },
+        });
     }
 }

@@ -7,6 +7,13 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this, false);
         this.setBounce(0.2)
 
+        if(player.state.state == 'pow'){
+            let sound = player.name + 'pow'
+            scene.sound.play(sound)
+        } else {
+            scene.sound.play('shoot')
+        }
+
         // colliding with enemy
         this.collider = scene.physics.add.collider(enemy, this, () => {
             if(!enemy.immune){

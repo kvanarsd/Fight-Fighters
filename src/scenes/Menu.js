@@ -62,9 +62,9 @@ class Menu extends Phaser.Scene {
         });
 
 
-        // let music = this.sound.add('intro')
-        // music.loop = true
-        // music.play()
+        let music = this.sound.add('music', {volume: 0.3})
+        music.loop = true
+        music.play()
 
         this.number = 1;
     }   
@@ -72,6 +72,7 @@ class Menu extends Phaser.Scene {
     update() {
         if(Phaser.Input.Keyboard.JustDown(V) || Phaser.Input.Keyboard.JustDown(P)) {
             if(this.number == 1) {
+                this.sound.play('menuSelect')
                 var menu1away = this.tweens.add({
                     targets: [this.bckg, this.name, this.start, this.cents, this.button],
                     duration: 800,
@@ -102,6 +103,7 @@ class Menu extends Phaser.Scene {
             }
 
             if(this.number == 2) {
+                this.sound.play('menuSelect')
                 var textOut = this.tweens.add({
                     targets: [this.creds, this.gameBy],
                     duration: 800,
@@ -125,13 +127,14 @@ class Menu extends Phaser.Scene {
             }
 
             if(this.number == 3) {
+                this.sound.play('menuSelect')
                 // snap shot code from Nathan Altice Paddle Parkour
                 let textureManager = this.textures;
                 this.game.renderer.snapshot((snapshotImage) => {
                     if(textureManager.exists('titlesnapshot')) {
                         textureManager.remove('titlesnapshot');
                     }
-                    
+
                     textureManager.addImage('titlesnapshot', snapshotImage);
                 });
 
