@@ -11,7 +11,7 @@ class Load extends Phaser.Scene {
         this.load.json('dialog', 'json/dialog.json')
 
         // load fonts
-        this.load.bitmapFont('midnew', 'fonts/midnewbmp.png', 'fonts/midnewbmp.xml')
+        this.load.bitmapFont('midnew', 'fonts/Backto1982.png', 'fonts/Backto1982.xml')
 
         // load sprites
         this.load.spritesheet("character", "img/Character_002.png", {
