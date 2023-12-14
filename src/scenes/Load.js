@@ -35,6 +35,8 @@ class Load extends Phaser.Scene {
         this.load.image("health", "img/health.png");
 
         // load sounds
+        this.load.audio("RMspeak", "sounds/RMspeak.mp3"); // from QuickSounds
+        this.load.audio("DKspeak", "sounds/DKspeak.mp3"); // from QuickSounds
         this.load.audio("hurt", "sounds/hurt.wav");
         this.load.audio("menuSelect", "sounds/pickupCoin.wav");
         this.load.audio("shoot", "sounds/attack.wav");

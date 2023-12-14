@@ -182,6 +182,7 @@ class Play extends Phaser.Scene {
 
             // iterate by attack
             if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
+                this.sound.play('RMspeak')
                 this.lightingAnim()
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
@@ -195,6 +196,7 @@ class Play extends Phaser.Scene {
             }
 
             if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
+                this.sound.play('DKspeak')
                 this.lightingAnim()
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
