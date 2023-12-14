@@ -88,9 +88,9 @@ class Play extends Phaser.Scene {
         this.Dr.healthBar = this.add.image(this.width - borderPadding * 2.7, borderPadding*0.8, "health").setOrigin(0,0.5);
         
         // player names
-        var RMname = this.add.bitmapText(borderPadding * 1.75, borderPadding*1.05, 'midnew', "Rumble", 24, 1).setOrigin(1,0.5);
+        var RMname = this.add.bitmapText(borderPadding * 1.75, borderPadding*1.05, 'bub', "RUMBLE", 18, 1).setOrigin(1,0.5);
         RMname.letterSpacing = 5
-        var DKname = this.add.bitmapText(this.width - borderPadding / 1.25, borderPadding*1.05, 'midnew', "Dr. Karate", 24, 1).setOrigin(1,0.5);
+        var DKname = this.add.bitmapText(this.width - borderPadding / 1.25, borderPadding*1.05, 'bub', "DR. KARATE", 18, 1).setOrigin(1,0.5);
         DKname.letterSpacing = 5
 
         // ground collisiond
@@ -273,8 +273,8 @@ class Play extends Phaser.Scene {
 
     endTextstart() {
         let over = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'GAMEOVER', 52, 1).setOrigin(0.5,0.5);
-        let coin = this.add.bitmapText(this.width/2, this.height/2, 'midnew', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
-        let instruct = this.add.bitmapText(this.width/2, this.height/2 + borderPadding/4, 'midnew', 'Press V or P to play again', 16, 1).setOrigin(0.5,0.5);
+        let coin = this.add.bitmapText(this.width/2, this.height/2, 'bub', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
+        let instruct = this.add.bitmapText(this.width/2, this.height/2 + borderPadding/4, 'bub', 'Press V or P to play again', 16, 1).setOrigin(0.5,0.5);
 
         var flash = this.tweens.add({
             targets: [over, coin, instruct],
@@ -318,7 +318,7 @@ class Play extends Phaser.Scene {
     }
 
     tips() {
-        let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'midnew', 'Attack while speaking to deal more damage!', 14, 1).setOrigin(0.5,0.5);
+        let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'bub', 'Attack while speaking to deal more damage!', 14, 1).setOrigin(0.5,0.5);
         tip.setDepth(12);
         this.tweens.add({
             targets: tip,
