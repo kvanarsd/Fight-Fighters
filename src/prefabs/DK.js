@@ -244,21 +244,28 @@ class DubJumpState extends State {
 class DuckState extends State {
     enter(scene, player) {
         player.setVelocityX(0)
-        player.body.setSize(player.width/2.5, player.height/2).setOffset(13,24)
-        player.anims.play(`DK-nAttack-${player.direction}`)
+        player.anims.play(`DK-duck-${player.direction}`)
+
+        if(player.direction == 'right') {
+            player.setSize(player.width/3, player.height/2)
+            player.setOffset(player.width/5,player.height/2.05)
+        } else {
+            player.setSize(player.width/3, player.height/2)
+            player.setOffset(player.width/2.5,player.height/2.05)        
+        }
         
-    }execute(scene, player) {
+    }
+    
+    execute(scene, player) {
         if(player.hurt && !player.immune) {
-            player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
+            player.setSize(player.width/3.5, player.height/1.5).setOffset(player.width/5,player.height/3.1)
             this.stateMachine.transition('hurt')
             return
         }
 
         player.once('animationcomplete', () => {
-            scene.time.delayedCall(200, () =>  {
-                player.body.setSize(player.width/2.5, player.height/1.5).setOffset(13,16)
-                this.stateMachine.transition('idle')
-            })
+            player.setSize(player.width/3.5, player.height/1.5).setOffset(player.width/5,player.height/3.1)
+            this.stateMachine.transition('idle')
         })
     }
 }
@@ -269,7 +276,6 @@ class HurtState extends State {
         player.setVelocityX(0)
         player.attacking = false;
         player.immune = true;
-        player.anims.play(`DK-hurt-${player.direction}`)
 
         var immune = scene.tweens.add({
             targets: player,
@@ -283,9 +289,7 @@ class HurtState extends State {
             }
         });
 
-        player.once('animationcomplete', () => {
-            this.stateMachine.transition('idle')
-        })
+        this.stateMachine.transition('idle')
 
         scene.time.delayedCall(800, () => {
             player.immune = false;
@@ -303,7 +307,6 @@ class firAttackState extends State {
         scene.time.delayedCall(700, function () {
             player.second = false;
         }, [], scene)
-        //console.log("first")
         
     }
     execute(scene, player) {
@@ -323,7 +326,7 @@ class SecAttackState extends State {
         player.attacking = true;
         player.attack += 20;
         player.second = false;
-        player.anims.play(`DK-nAttack-${player.direction}`)
+        player.anims.play(`DK-sAttack-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')
@@ -343,7 +346,7 @@ class PowAttackState extends State {
         player.attacking = true;
         player.attack *= 3;
         player.powerUp = false;
-        player.anims.play(`DK-nAttack-${player.direction}`)
+        player.anims.play(`DK-pow-${player.direction}`)
 
         player.once('animationcomplete', () => {
             this.stateMachine.transition('idle')

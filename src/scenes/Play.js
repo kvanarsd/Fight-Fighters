@@ -54,10 +54,10 @@ class Play extends Phaser.Scene {
         this.keys.VKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.V)
 
         // players
-        this.Rumble = new RM(this, this.width/4, this.height - borderPadding*2, "character", 0).setScale(3).setOrigin(0.5,0.5);
-        this.Rumble.setSize(this.Rumble.width/2.5, this.Rumble.height/1.5).setOffset(13,16)
-        this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding*2, "character", 0).setScale(3).setOrigin(0.5,0.5);
-        this.Dr.setSize(this.Rumble.width/2.5, this.Rumble.height/1.5).setOffset(16,16)
+        this.Rumble = new RM(this, this.width/4, this.height - borderPadding*2, "characters", 'RMidle1').setOrigin(0.5,0.5).setScale(0.8);
+        this.Rumble.setSize(this.Rumble.width/3, this.Rumble.height/1.5).setOffset(this.Rumble.width/5,this.Rumble.height/3.1)
+        this.Dr = new DK(this, 3*this.width/4, this.height - borderPadding*2, "characters", 'DKidle1').setScale(0.8).setOrigin(0.5,0.5);
+        this.Dr.setSize(this.Dr.width/3.5, this.Dr.height/1.5).setOffset(this.Dr.width/2.2,this.Dr.height/3.1)
         
         // player health bars
         this.barLeft = this.add.image(borderPadding * 2.7, borderPadding*0.8, "bar").setOrigin(1,0.5);
@@ -72,7 +72,7 @@ class Play extends Phaser.Scene {
         DKname.letterSpacing = 5
 
         // ground collisiond
-        const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 1).setOrigin(0,0)
+        const ground = this.add.rectangle(0, this.height - borderPadding/1.2 , this.width, 0).setOrigin(0,0)
         this.physics.add.existing(ground, true)
 
         this.physics.add.collider(ground, this.Rumble, () => {
@@ -124,11 +124,18 @@ class Play extends Phaser.Scene {
             this.Rumble.state.step();
             this.Dr.state.step();
 
-            // lighting
-            // if(this.light.alpha >= 0.5 && this.lightDim) {
-            //     const addLight = this.light.alpha - 0.01
-            //     this.light.setAlpha(addLight)
-            // }
+            // change hitbox offset depending on direction
+            if(this.Rumble.direction == 'right' && this.Rumble.state.state != "duck") {
+                this.Rumble.setOffset(this.Rumble.width/5,this.Rumble.height/3.1)
+            } else if (this.Rumble.state.state != "duck"){
+                this.Rumble.setOffset(this.Rumble.width/2.5,this.Rumble.height/3.1)
+            }
+
+            if(this.Dr.direction == 'left' && this.Dr.state.state != "duck") {
+                this.Dr.setOffset(this.Dr.width/2.2,this.Dr.height/3.1)
+            } else if(this.Dr.state.state != "duck"){
+                this.Dr.setOffset(this.Dr.width/4.4,this.Dr.height/3.1)
+            }
 
             // check still talking 
             if(this.dialogTalking) {
@@ -156,13 +163,13 @@ class Play extends Phaser.Scene {
                 console.log("speak")
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
-                const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
+                const talk = new Attack(this, this.Rumble.x, this.Rumble.y - 40, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Rumble.attacking && !this.Rumble.spoken) {
                 this.lightingAnim()
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
-                const talk = new Attack(this, this.Rumble.x, this.Rumble.y, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
+                const talk = new Attack(this, this.Rumble.x, this.Rumble.y - 40, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
             }
 
             if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
@@ -170,13 +177,13 @@ class Play extends Phaser.Scene {
                 console.log("speak")
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
-                const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
+                const talk = new Attack(this, this.Dr.x, this.Dr.y - 40, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Dr.attacking && !this.Dr.spoken) {
                 this.lightingAnim()
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
-                const talk = new Attack(this, this.Dr.x, this.Dr.y, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
+                const talk = new Attack(this, this.Dr.x, this.Dr.y - 40, texture, 0, this.Dr, this.Dr.direction, this.Rumble, "")
             }
 
             // end convo if speaker is hurt

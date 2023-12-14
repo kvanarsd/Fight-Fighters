@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene {
             points: 200,
             speed: 300,
             gravity: 700,
-            jump: -500
+            jump: -450
         }
 
         // background images
