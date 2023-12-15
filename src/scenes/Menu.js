@@ -72,8 +72,11 @@ class Menu extends Phaser.Scene {
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(V) || Phaser.Input.Keyboard.JustDown(P)) {
+            // menu 2
             if(this.number == 1) {
                 this.sound.play('menuSelect')
+
+                // tween away menu 1 and tween in menu 2
                 var menu1away = this.tweens.add({
                     targets: [this.bckg, this.name, this.start, this.cents, this.button],
                     duration: 800,
@@ -103,8 +106,10 @@ class Menu extends Phaser.Scene {
                 })
             }
 
+            // menu 3
             if(this.number == 2) {
                 this.sound.play('menuSelect')
+                // slide away text and in menu 3 text
                 var textOut = this.tweens.add({
                     targets: [this.creds, this.gameBy],
                     duration: 800,
@@ -127,9 +132,10 @@ class Menu extends Phaser.Scene {
                 })
             }
 
+            // start game
             if(this.number == 3) {
                 this.sound.play('menuSelect')
-                // snap shot code from Nathan Altice Paddle Parkour
+                // snapshot code from Nathan Altice Paddle Parkour
                 let textureManager = this.textures;
                 this.game.renderer.snapshot((snapshotImage) => {
                     if(textureManager.exists('titlesnapshot')) {

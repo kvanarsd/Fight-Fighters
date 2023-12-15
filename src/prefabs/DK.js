@@ -2,6 +2,7 @@ class DK extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
+        // for physics
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
@@ -16,21 +17,21 @@ class DK extends Phaser.Physics.Arcade.Sprite {
         this.points = game.settings.points;
         this.speed = game.settings.speed;
         this.velY = game.settings.jump;
-        this.immune = false;
-        this.second = false;
-        this.attack = 30;
-        this.attacking = false;
-        this.hurt = false;
+        this.immune = false;            // hurt and cant be hit again
+        this.second = false;            // second attack
+        this.attack = 30;               // baseline damage 
+        this.attacking = false;         // one attack at a time
+        this.hurt = false;              // hurt
         this.spoken = false             // one word per attack
-        this.powScore = 0;
-        this.doubleJump = 0;
+        this.powScore = 0;              // wait for power up usage
+        this.doubleJump = 0;            // jump counter
         this.name = 'Dr'                // for attack sound
 
         // text
         this.damage = 0;
         this.damageDealt = scene.add.bitmapText(scene.width - borderPadding * 2.65, borderPadding*0.5, 'midnew', scene.formatValue(this.damage), 18, 1).setOrigin(0,0.5);
         this.damageDealt.letterSpacing = 4
-        
+
         //state machine
         this.state = new StateMachine('idle', {
             idle: new IdleState(),
@@ -309,7 +310,7 @@ class HurtState extends State {
 
         this.stateMachine.transition('idle')
 
-        scene.time.delayedCall(600, () => {
+        scene.time.delayedCall(800, () => {
             player.immune = false;
         })
     }

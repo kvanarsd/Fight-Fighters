@@ -2,6 +2,7 @@ class RM extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
+        // for physics
         scene.add.existing(this);
         scene.physics.add.existing(this, false);
         this.body.setCollideWorldBounds(true);
@@ -16,14 +17,14 @@ class RM extends Phaser.Physics.Arcade.Sprite {
         this.points = game.settings.points;
         this.speed = game.settings.speed;
         this.velY = game.settings.jump;
-        this.immune = false;
-        this.second = false;
-        this.attack = 30;
-        this.attacking = false;
-        this.hurt = false;
+        this.immune = false;            // hurt and cant be hit again
+        this.second = false;            // second attack
+        this.attack = 35;               // baseline damage 
+        this.attacking = false;         // one attack at a time
+        this.hurt = false;              // hurt
         this.spoken = false             // one word per attack
-        this.powScore = 0;
-        this.doubleJump = 0;
+        this.powScore = 0;              // wait for power up usage
+        this.doubleJump = 0;            // jump counter
         this.name = 'Rumble'                // for attack sound
 
         // text

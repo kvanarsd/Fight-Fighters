@@ -7,6 +7,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this, false);
         this.setBounce(0.2)
 
+        // sound effects
         if(player.state.state == 'pow'){
             let sound = player.name + 'pow'
             scene.sound.play(sound)
@@ -59,6 +60,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         // word
         if(word != "") {
             this.text = scene.add.bitmapText(scene.width/2, scene.height/2, 'midnew', word, 52, 1).setOrigin(0.5).setScale(.5).setAlpha(0.2);
+            
             // tween attack text
             var TweenIn = scene.tweens.add({
                 targets: this.text,
@@ -93,7 +95,7 @@ class Attack extends Phaser.Physics.Arcade.Sprite {
         
     }
 
-    update(enemy) {
+    update() {
         // destroy if off screen
         if(this.x > scene.width + borderPadding || this.x < -borderPadding) {
             this.destroy();

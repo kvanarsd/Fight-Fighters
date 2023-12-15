@@ -25,15 +25,6 @@ class Play extends Phaser.Scene {
         // fight!
         let fight = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'FIGHT!', 74, 1).setOrigin(0.5,0.5).setAlpha(1);
         fight.setDepth(12);
-        // this.tweens.add({
-        //     targets: fight,
-        //     duration: 200,
-        //     ease: 'Linear',
-        //     repeat: 0,
-        //     yoyo: false,
-        //     delay: 400,
-        //     alpha: { from: 0, to: 1 },
-        // });
         this.tweens.add({
             targets: fight,
             duration: 500,
@@ -180,6 +171,7 @@ class Play extends Phaser.Scene {
             }
 
             // iterate by attack
+            // attack while speaking
             if(this.Rumble.attacking && this.dialogTalking && this.dialogSpeaker == "RM" && !this.Rumble.spoken) {
                 this.sound.play('RMspeak')
                 this.lightingAnim()
@@ -188,12 +180,14 @@ class Play extends Phaser.Scene {
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y - 40, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Rumble.attacking && !this.Rumble.spoken) {
+                //attack while not speaking
                 this.lightingAnim()
                 this.Rumble.spoken = true;
                 const texture = "RM" + this.Rumble.state.state + "-" + this.Rumble.direction
                 const talk = new Attack(this, this.Rumble.x, this.Rumble.y - 40, texture, 0, this.Rumble, this.Rumble.direction, this.Dr, "")
             }
 
+            //attack while speaking
             if(this.Dr.attacking && this.dialogTalking && this.dialogSpeaker == "DK" && !this.Dr.spoken) {
                 this.sound.play('DKspeak')
                 this.lightingAnim()
@@ -202,6 +196,7 @@ class Play extends Phaser.Scene {
                 const talk = new Attack(this, this.Dr.x, this.Dr.y - 40, texture, 0, this.Dr, this.Dr.direction, this.Rumble, this.dialogWords[this.dialogWord])
                 this.dialogWord++;
             } else if(this.Dr.attacking && !this.Dr.spoken) {
+                //attack while not speaking
                 this.lightingAnim()
                 this.Dr.spoken = true;
                 const texture = "DR" + this.Dr.state.state + "-" + this.Dr.direction
@@ -246,13 +241,14 @@ class Play extends Phaser.Scene {
                 this.scene.restart();
             }
 
-            let backMenu = this.time.delayedCall(10000, () => {
+            this.time.delayedCall(10000, () => {
                 this.scene.start("menuScene");
             })
 
         }
     }
 
+    // starts random converstation
     convoStarter() {
         this.tips()
         this.convoTimer.delay = Phaser.Math.Between(200, 1000);
@@ -270,6 +266,7 @@ class Play extends Phaser.Scene {
 
     }
 
+    // tweens for game over text
     endTextstart() {
         let over = this.add.bitmapText(this.width/2, this.height/2 - borderPadding/2, 'midnew', 'GAMEOVER', 52, 1).setOrigin(0.5,0.5);
         let coin = this.add.bitmapText(this.width/2, this.height/2, 'bub', 'INSERT COIN TO CONTINUE', 32, 1).setOrigin(0.5,0.5);
@@ -289,6 +286,7 @@ class Play extends Phaser.Scene {
         this.tweenStarted = true;
     }
 
+    // tweens for lighting
     lightingAnim() {
         this.light.setAlpha(0.5)
         this.tweens.add({
@@ -301,6 +299,7 @@ class Play extends Phaser.Scene {
         });
     }
 
+    // tweens for power up button
     powAnim(x) {
         this.tweens.add({
             targets: x,
@@ -312,10 +311,12 @@ class Play extends Phaser.Scene {
         });
     }
 
+    // formats damage dealt with zeros
     formatValue(value) {
         return value.toString().padStart(13, '0');
     }
 
+    // tween in tip text
     tips() {
         let tip = this.add.bitmapText(this.width/2, this.height - borderPadding/2, 'bub', 'Attack while speaking to deal more damage!', 20, 1).setOrigin(0.5,0.5);
         tip.setDepth(12);

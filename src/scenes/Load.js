@@ -16,10 +16,6 @@ class Load extends Phaser.Scene {
         this.load.bitmapFont('bub', 'fonts/Librium.png', 'fonts/Librium.xml')
 
         // load sprites
-        this.load.spritesheet("character", "img/Character_002.png", {
-            frameWidth: 48
-        })
-
         this.load.atlas('attacks', 'img/attackAnims.png', 'json/attackAnims.json')
         this.load.atlas('attacksF', 'img/attackAnimsFlip.png', 'json/attackAnimsFlip.json')
         this.load.atlas('characters', 'img/characterAnims.png', 'json/characterAnims.json')
@@ -297,7 +293,7 @@ class Load extends Phaser.Scene {
                 end: 3,
             }),
             yoyo: true,
-            frameRate: 5,
+            frameRate: 4.5,
             repeat: 0
         })
 
@@ -309,7 +305,7 @@ class Load extends Phaser.Scene {
                 end: 3
             }),
             yoyo: true,
-            frameRate: 5,
+            frameRate: 4.5,
             repeat: 0
         })
 
